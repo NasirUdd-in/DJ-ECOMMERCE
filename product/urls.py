@@ -6,6 +6,6 @@ from .views import(
 
 urlpatterns = [
     path('', Home.as_view(), name='home'),
-    path('product-details/', ProductDetails.as_view(), name='product-details'),
+    path('product-details/<str:slug>/', ProductDetails.as_view(), name='product-details'),
     
 ]

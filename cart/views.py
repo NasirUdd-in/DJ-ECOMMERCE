@@ -10,7 +10,8 @@ class AddToCart(generic.View):
         product = get_object_or_404(Product, id=kwargs.get('product_id'))
         cart = Cart(self.request)
         cart.update(product.id, 1)
-        return redirect('product-details', slug=product.slug)
+        # return redirect('product-details', slug=product.slug)
+        return redirect('cart')
 
 
 class CartItems(generic.TemplateView):

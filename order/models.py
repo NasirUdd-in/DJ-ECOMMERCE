@@ -18,11 +18,10 @@ class OrderItem (models. Model):
 class Order (models.Model):
         STATUS = ('Recieved', 'On the way', 'Delivered')
         
-        user = models. ForeignKey (settings.AUTH_USER_MODEL, related_name='orders', on_delete=models.CASCADE)
+        user = models.ForeignKey (settings.AUTH_USER_MODEL, related_name='orders', on_delete=models.CASCADE)
         order_items = models. ManyToManyField (OrderItem)
-        # coupon = models.Foreignkey (Coupon, null-True, blank=True, on_delete=models.SET_NULL) 
-        first_name=models.CharField(max_length=100)
-        last_name = models.CharField(max_length=100)
+        first_name=models.CharField(max_length=100, blank=False)
+        last_name = models.CharField(max_length=100, blank=False)
         email = models.EmailField(max_length=150)
         city = models.CharField(max_length=50)
         zip_code = models.CharField(max_length=10)

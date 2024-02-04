@@ -14,10 +14,10 @@ class Cart(object):
         self.session[self.cart_id].setdefault(str(product_id), {"quantity": 0})
         updated_quantity = self.session[self.cart_id][str(product_id)]['quantity'] + quantity
         self.session[self.cart_id][str(product_id)]['quantity'] = updated_quantity
-        self.session[self.cart_id][str(product_id)]['subtotal'] = updated_quantity + float(product.price)
+        self.session[self.cart_id][str(product_id)]['subtotal'] = updated_quantity * float(product.price)
 
         if updated_quantity < 1:
-            del self.session[self.cart_id][set(product_id)]
+            del self.session[self.cart_id][str(product_id)]
 
         self.save()
 
@@ -47,3 +47,13 @@ class Cart(object):
 
     def __len__(self):
         return len(list(self.cart.keys()))
+
+    
+    def clear(self):
+        try:
+            del self.session[self.cart_id]
+
+        except:
+            pass
+        
+        self.save()

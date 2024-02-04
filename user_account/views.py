@@ -1,3 +1,4 @@
+import copy
 from django.views import generic
 from django.urls import reverse_lazy
 from django.contrib import messages
@@ -22,7 +23,7 @@ from .mixins import (
     LogoutRequiredMixin
 )
 
-
+from cart.carts import Cart
 
 @method_decorator(never_cache, name='dispatch')
 class Login(LogoutRequiredMixin, generic.View):
@@ -55,8 +56,11 @@ class Login(LogoutRequiredMixin, generic.View):
 
 class Logout(generic.View):
     def get(self, *args, **kwargs):
+        cart = Cart(self.request)
+        current_cart = copy.deepcopy(cart.cart)
         logout(self.request)
-        return redirect('login')
+        cart.restore_after_logout (current_cart)
+        return redirect('login') 
 
 
 @method_decorator(never_cache, name='dispatch')

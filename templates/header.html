@@ -1,39 +1,59 @@
- {% load static %}
- <!-- Header Section Begin -->
- <header class="header-section">
-    <div class="container-fluid">
-        <div class="inner-header">
-            <div class="logo">
-                <a href="{% url 'home' %}"><img src="{% static 'img/logo.png' %}" alt=""></a>
-            </div>
-            <div class="header-right">
-                <img src="{% static 'img/icons/search.png' %}" alt="" class="search-trigger">
-                <!-- <img src="{% static 'img/icons/man.png' %}" alt=""> -->
-                <a href="{% url 'cart' %}">
-                    <img src="{% static 'img/icons/bag.png' %}" alt="">
-                    <span>{{cart|length}}</span>
-                </a>
-            </div>
-            <div class="user-access">
-                <a href="#">Register</a>
-                <a href="#" class="in">Sign in</a>
-            </div>
-            <nav class="main-menu mobile-menu">
-                <ul>
-                    <li><a class="active" href="{% url 'home' %}">Home</a></li>
-                    <li><a href="#">Products</a>
-                        <ul class="sub-menu">
-                            {% for category in categories %}
+{% load static %}
+<!-- Header Section Begin -->
+<header class="header-section">
+  <div class="container-fluid">
+    <div class="inner-header">
+      <div class="logo">
+        <a href="{% url 'home' %}"
+          ><img src="{% static 'img/logo.png' %}" alt=""
+        /></a>
+      </div>
+      <div class="header-right">
+        <img
+          src="{% static 'img/icons/search.png' %}"
+          alt=""
+          class="search-trigger"
+        />
+        <!-- <img src="{% static 'img/icons/man.png' %}" alt=""> -->
+        <a href="{% url 'cart' %}">
+          <img src="{% static 'img/icons/bag.png' %}" alt="" />
+          <span>{{cart|length}}</span>
+        </a>
+      </div>
+      {% if not request.user.is_authenticated %}
+      <div class="user-access">
+        <a href="{% url 'registration' %}">Register</a>
+        <a href="{% url 'login' %}" class="in">Sign in</a>
+      </div>
+      {% endif %}
 
-                            <li><a href="#">{{category.title|title}}</a></li>
+      <nav class="main-menu mobile-menu">
+        <ul>
+          <li><a class="" href="{% url 'home' %}">Home</a></li>
+          <li><a class="" href="{% url 'home' %}">Products</a></li>
+          <li>
+            <a href="#">Categories</a>
+            <ul class="sub-menu">
+              {% for category in categories %}
+              <li><a href="#">{{category.title|title}}</a></li>
+              {% endfor %}
+            </ul>
+          </li>
+          {% if request.user.is_authenticated %}
+          <li>
+            <a href="#">
+              <img src="{% static 'img/icons/man.png' %}" alt="" />
+            </a>
 
-                            {% endfor %}                        
-                    </li>
-                    <!-- <li><a href="./product-page.html">About</a></li>
-                    <li><a href="./check-out.html">Blog</a></li>
-                    <li><a href="./contact.html">Contact</a></li> -->
-                </ul>
-            </nav>
-        </div>
+            <ul class="sub-menu">
+              <li><a href="{% url 'logout' %}">Logout</a></li>
+              <li><a href="#">Orders</a></li>
+              <li><a href="#">Change Password</a></li>
+            </ul>
+          </li>
+          {% endif %}
+        </ul>
+      </nav>
     </div>
+  </div>
 </header>

@@ -5,9 +5,9 @@ from product.models import Product
 
 
 class OrderItem (models. Model):
-        product = models. ForeignKey (Product, related_name='ordered', on_delete=models.CASCADE)
-        price = models. DecimalField (max_digits=8, decimal_places=2)
-        quantity= models. PositiveIntegerField()
+        product = models.ForeignKey (Product, related_name='ordered', on_delete=models.CASCADE)
+        price = models.DecimalField (max_digits=8, decimal_places=2)
+        quantity= models.PositiveIntegerField()
 
         class Meta:
               ordering = ['-id']
@@ -20,8 +20,8 @@ class Order (models.Model):
         
         user = models.ForeignKey (settings.AUTH_USER_MODEL, related_name='orders', on_delete=models.CASCADE)
         order_items = models. ManyToManyField (OrderItem)
-        first_name=models.CharField(max_length=100, blank=False)
-        last_name = models.CharField(max_length=100, blank=False)
+        first_name=models.CharField(max_length=100)
+        last_name = models.CharField(max_length=100)
         email = models.EmailField(max_length=150)
         city = models.CharField(max_length=50)
         zip_code = models.CharField(max_length=10)

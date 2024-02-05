@@ -19,6 +19,8 @@ class Checkout (LoginRequiredMixin, generic.View):
         form = CheckoutForm(self.request.POST)
         
         if form.is_valid():
+            data = form.cleaned_data
+            print(data)
             return JsonResponse({
                 'success': True,
                 "errors": None

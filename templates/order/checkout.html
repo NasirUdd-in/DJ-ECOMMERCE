@@ -34,12 +34,12 @@
                         </div>
                         {% endif %}
                         <div class="col-lg-12 py-2">
-                            <input name="First_name" type="text" placeholder="Enter Firstname">
+                            <input name="first_name" type="text" placeholder="Enter Firstname">
                             <small id="error_first_name" class="text-danger"></small>
                             
                         </div>
                         <div class="col-lg-12 py-2">
-                            <input name="Last_name" type="text" placeholder="Enter Lastname">
+                            <input name="last_name" type="text" placeholder="Enter Lastname">
                             <small id="error_last_name" class="text-danger"></small>
                         </div>
                         <div class="col-lg-12 py-2">
@@ -78,17 +78,14 @@
 
 {% endblock content%}
 
-
 {% block extra_scripts %}
     <script>
         const form = document.getElementById('checkout-form');
         const csrfmiddlewaretoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
-
         let formIsValid = false;
 
         const validateFormAndCheckout = () => {
-
             const url = '/checkout/';
             
             fetch(url, {
@@ -101,34 +98,42 @@
             .then(response => {
                 return response.json();
             })
-
             .then(data => {
-             
-                
-                console.log('valid');
-                
-            }
-            else {
-                let errors = data.errors;
-                formIsValid = false;
-                Object.keys(errors).forEach(key => {
-                    document.getElementById(`error_${key}`).innerText = errors[key].join('');
-                })
-                console.log('invalid');
-                console.log(data);
-
-              }
+                if(data.success){
+                    formIsValid = true;
+                    new FormData(form).forEach((value, key) => {
+                        if(key != 'csrfmiddlewaretoken'){
+                            document.getElementById(`error_${key}`).innerText="";
+                        }
+                        
+                    })
+                    console.log('valid');
+                   }
+                   else{
+                    let errors = data.errors;
+                    formIsValid = false;
+                    new FormData(form).forEach((value, key) => {
+                        if(key != 'csrfmiddlewaretoken'){
+                            document.getElementById(`error_${key}`).innerText="";
+                        }
+                        
+                    })
+                    Object.keys(errors).forEach(key => {
+                        console.log(key, "-", errors[key]);
+                        document.getElementById(`error_${key}`).innerText = errors[key].join('');
+                    })
+                    console.log('invalid');
+                   }
             })
-            
             .catch(error => {
                 console.log(error);
-            })
-        }
+            });
+        };
 
         form.addEventListener('submit', (event) => {
             event.preventDefault();
-            validateFormAndCheckout()
+            validateFormAndCheckout();
             console.log('submit');
-        })
+        });
     </script>
 {% endblock extra_scripts %}

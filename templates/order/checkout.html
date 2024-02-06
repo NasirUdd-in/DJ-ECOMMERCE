@@ -169,6 +169,18 @@
                 // Insert your logic for a successful payment
                 console.log('Capture result' , orderData, JSON.stringify(orderData, null, 2));
                 const transaction = orderData.purchase_units[0].payments.captures[0];
+                const amount = parseFloat(transaction.amount.value).toFixed(2);
+                
+                const transactionId = transaction.id;
+                let customer = {};
+                new FormData(form).forEach((value, key) => {
+                    customer[key] = value;
+                })
+                delete customer['csrfmiddlewaretoken'];
+                customer['amount'] = amount;
+                customer['paypal_transaction_id'] = transactionTd;
+                
+                
                 alert( `Transaction ${transaction.status}: ${transaction.id}\n\nSee console tor all available
                 details` )
                 

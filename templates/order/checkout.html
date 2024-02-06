@@ -3,6 +3,16 @@
 
 {% block title %} {% endblock title %}
 
+{% block links%}
+<style>
+    #paypal-button-container{
+        display: none;
+        
+        }
+ </style>
+
+{% endblock links%}
+
 {% block content%}
 
  <!-- Page Add Section Begin -->
@@ -85,7 +95,9 @@
         const form = document.getElementById('checkout-form');
         const csrfmiddlewaretoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
+        const paypalCheckout = document.getElementById('paypal-button-container');
         let formIsValid = false;
+        const total = '{{cart.total}}';
 
         const validateFormAndCheckout = () => {
             const url = '/checkout/';
@@ -110,6 +122,9 @@
                         
                     })
                     console.log('valid');
+                    paypalCheckout.style.display= "block";
+                    form.style.display = "none";
+
                    }
                    else{
                     let errors = data.errors;
@@ -143,15 +158,21 @@
               return actions.order.create({
                 purchase_units: [{
                   amount: {
-                    value: '1.00' // Set the amount you want to charge
+                    value: parseFloat(total).toFixed(2)
+                    // Set the amount you want to charge
                   }
                 }]
               });
             },
             onApprove: function(data, actions) {
-              return actions.order.capture().then(function(details) {
+              return actions.order.capture().then(function(orderData) {
                 // Insert your logic for a successful payment
-                alert('Transaction completed by ' + details.payer.name.given_name);
+                console.log('Capture result' , orderData, JSON.stringify(orderData, null, 2));
+                const transaction = orderData.purchase_units[0].payments.captures[0];
+                alert( `Transaction ${transaction.status}: ${transaction.id}\n\nSee console tor all available
+                details` )
+                
+                
               });
             }
           }).render('#paypal-button-container');

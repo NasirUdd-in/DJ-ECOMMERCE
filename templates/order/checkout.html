@@ -31,7 +31,7 @@
 <!-- Page Add Section End -->
 
 <!-- Contact Section Begin -->
-<div class="contact-section">
+<div id="main-content" class="contact-section">
     <div class="container">
         <div class="row">
             <div class="col-lg-8">
@@ -74,7 +74,7 @@
                         </div>
 
                         <div class="col-lg-12 text-right">
-                            <button class="btn-block" type="submit">Pay</button>
+                            <button class="btn-block" type="submit">Continue</button>
                         </div>
                     
                     </div>
@@ -91,11 +91,13 @@
 
 {% block extra_scripts %}
     <script src="https://www.paypal.com/sdk/js?client-id=AdWOXhxPLg_D1t_hCATFMO3zFlvcbvNqZSGlP4JB9Fh0jLZp7Ht1cUYj0JVnXrXxsJt9SYl8nNCYae_e&currency=USD"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         const form = document.getElementById('checkout-form');
         const csrfmiddlewaretoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
         const paypalCheckout = document.getElementById('paypal-button-container');
+        const maincontent = document.getElementById('main-content');
         let formIsValid = false;
         const total = '{{cart.total}}';
 
@@ -177,13 +179,42 @@
                     customer[key] = value;
                 })
                 delete customer['csrfmiddlewaretoken'];
-                customer['amount'] = amount;
-                customer['paypal_transaction_id'] = transactionTd;
+                customer['total'] = amount;
+                customer['paypal_transaction_id'] = transactionId;
                 
+                fetch('/save-order/',{
+                    method: "POST",
+                    headers: {
+                   'Content-Type': 'application/json',
+                   'X-CSRFToken': csrfmiddlewaretoken
+                    },
+                    body: JSON.stringify(customer)
+                })
+                .then(response => {
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data);
+                    maincontent.innerHTML = ""; // remove from after the completion of order so hacker can not manupulate dom
+                    Swal.fire(
+                        'Thank You!',
+                        'Your order has been received',
+                        'success'
+                    )
+                    .then(result => {
+                        window.location.href = window.location.origin + '/orders/';
+                    })
+                })
+                .catch(error =>{
+                    console.log(error);
+                })
+                Swal.fire(
+                    'Thank You!',
+                    'Your order has been received',
+                    'success'
+                );
                 
-                alert( `Transaction ${transaction.status}: ${transaction.id}\n\nSee console tor all available
-                details` )
-                
+                console.log('SweetAlert shown');
                 
               });
             }

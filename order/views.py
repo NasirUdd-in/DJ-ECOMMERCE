@@ -61,7 +61,7 @@ class SaveOrder (LoginRequiredMixin, generic.View):
         order.order_items.add(*ordered_products)
         
         #security puerpose
-        if float(cart.total()) != float(order.total):
+        if float('%.2f' % cart.total()) != float(order.total):
             order.paid = False
             order.save()
          

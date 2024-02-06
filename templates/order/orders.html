@@ -10,11 +10,8 @@
             <div class="categories-controls">
                 <div class="row">
                     <div class="col-lg-12">
-                        <div class="categories-filter"> 
-                            <div class="cf-right">
-                                <span>Orders</span>
-                                
-                            </div>
+                        <div class="page-beadcumb">
+                            Orders
                         </div>
                     </div>
                 </div>
@@ -24,13 +21,37 @@
     <!-- Product Page Section End -->
 
 <section>
-    <div class="row">
-        {% for order in orders %}
-        <div class="col-md-12">
-           <h4>{{order.transaction_id}}</h4>
-        </div>
-        {% endfor %}   
-        </div>
+    <div class="container">
+    <div class="col-md-12"> 
+        {% if orders %}
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Transaction Id</th>
+            <th scope="col">Customer Email</th>
+            <th scope="col">Status</th>
+            <th scope="col">Details</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+          <tr>
+            <td>{{order.transaction_id}}</td>
+            <th scope="row">{{order.email}}</th>
+            <td>{{order.status}}</td>
+            <td>{{order.created_date}}</td>
+          </tr>
+          {% endfor %}  
+        </tbody>
+      </table>
+    </div>
+</div>
+{% else %}
+<div class="col-md-12">
+     <h3> No orders yet </h3>
+</div>
+{% endif %}
 </section>
 
 {% endblock content %}
+</div>

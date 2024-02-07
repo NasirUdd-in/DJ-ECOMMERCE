@@ -1,8 +1,10 @@
 from django.db.models import Q
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, DetailView
 from django.views import generic
 from cart.carts import Cart
+from django.contrib.auth.decorators import login_required
+from .forms import ProductForm
 from django.core.paginator import (
     PageNotAnInteger,
     EmptyPage,
@@ -103,4 +105,19 @@ class SearchProducts(generic.View):
         return render(self.request, 'product/search-products.html', context)
         
         
-    
+
+
+#seller part begin
+@login_required
+def upload_product(request):
+    if request.method == 'POST':
+        form = ProductForm(request.POST)
+        if form.is_valid():
+            product = form.save(commit=False)
+            product.seller = request.user
+            product.save()
+            return redirect('upload_product')  # Redirect to a view displaying the list of products
+    else:
+        form = ProductForm()
+
+    return render(request, 'seller/upload_product.html', {'form': form})

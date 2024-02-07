@@ -72,6 +72,15 @@
                        </a>
                         <p>{{product.price}}</p>
                     </div>
+                    <div class="product-text">
+                    <form action="{% url 'add-to-cart' product.id %}" method="POST">
+                        {% csrf_token %}
+
+                        <button style="cursor: pointer;" type="submit" class="btn btn-outline-success">
+                            Add to cart
+                        </button>
+                    </form>
+                   </div>
                 </div>
             </div>
             {% endfor %}
@@ -109,6 +118,15 @@
                        </a>
                         <p>{{product.price}}</p>
                     </div>
+                    <div class="product-text">
+                        <form action="{% url 'add-to-cart' product.id %}" method="POST">
+                            {% csrf_token %}
+    
+                            <button style="cursor: pointer;" type="submit" class="btn btn-outline-success">
+                                Add to cart
+                            </button>
+                        </form>
+                       </div>
                 </div>
             </div>
             {% endfor %}
@@ -123,7 +141,7 @@
             <div class="col-lg-4 offset-lg-1">
                 <div class="lookbok-left">
                     <div class="section-title">
-                        <h2>2019 <br />#lookbook</h2>
+                        <h2>2024 <br />#lookbook</h2>
                     </div>
                     <p>Fusce urna quam, euismod sit amet mollis quis, vestibulum quis velit. Vestibulum malesuada
                         aliquet libero viverra cursus. Aliquam erat volutpat. Morbi id dictum quam, ut commodo

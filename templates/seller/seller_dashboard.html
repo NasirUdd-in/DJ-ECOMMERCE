@@ -13,27 +13,30 @@
       <button type="submit" class="btn btn-primary">Filter</button>
     </form>
     {% if seller_orders %}
-  <table class="table">
+  <table class="table ">
       <thead>
         <tr>
-          <th scope="col">Products Name</th>
-          <th scope="col">Quantity</th>
-          <th scope="col">Price</th>
+          <th scope="col" class="bg-warning">Products Name</th>
+          <th scope="col" class="bg-warning">Quantity</th>
+          <th scope="col" class="bg-warning">Price</th>
         
         </tr>
       </thead>
       <tbody>
         {% for order_item in seller_orders %}
         <tr>
-          <td>{{ order_item.product.title }}</td>
-          <th scope="row">{{ order_item.quantity }}</th>
-          <td>{{ order_item.price }}</td>
+          <td class="bg-info">{{ order_item.product.title }}</td>
+          <th scope="row" class="table-dark">{{ order_item.quantity }}</th>
+          <td class="table-primary">{{ order_item.price }}</td>
         </tr>
        
         {% endfor %}
-        <tr>
-          <td>
-          Total Price of Sold Products: ${{ total_price }}
+        <tr  >
+          <td class="bg-success">
+            Total Price of Sold Products:
+          </td>
+          <td class="bg-success" colspan="2">
+           ${{ total_price }}
         </td>
         </tr>
       </tbody>

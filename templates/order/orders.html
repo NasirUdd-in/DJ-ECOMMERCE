@@ -11,13 +11,15 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="page-beadcumb">
-                            Orders
+                          <h3>Orders</h1>  
+                            <hr>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+    
     <!-- Product Page Section End -->
 
 <section>
@@ -27,19 +29,19 @@
     <table class="table">
         <thead>
           <tr>
-            <th scope="col">Transaction Id</th>
-            <th scope="col">Customer Email</th>
-            <th scope="col">Status</th>
-            <th scope="col">Details</th>
+            <th class="bg-warning" scope="col">Transaction Id</th>
+            <th class="bg-warning" scope="col">Customer Email</th>
+            <th class="bg-warning" scope="col">Status</th>
+            <th class="bg-warning" scope="col">Details</th>
           </tr>
         </thead>
         <tbody>
             {% for order in orders %}
           <tr>
-            <td>{{order.transaction_id}}</td>
-            <th scope="row">{{order.email}}</th>
-            <td>{{order.status}}</td>
-            <td>{{order.created_date}}</td>
+            <td  class="table-primary">{{order.transaction_id}}</td>
+            <th scope="row"  class="table-secondary">{{order.email}}</th>
+            <td class="table-warning">{{order.status}}</td>
+            <td class="table-dark">{{order.created_date}}</td>
           </tr>
           {% endfor %}  
         </tbody>

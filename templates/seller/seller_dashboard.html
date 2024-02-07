@@ -2,23 +2,48 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <div class="container mt-4">
+ 
+
+<section>
+  <div class="container">
+  <div class="col-md-12"> 
     <h2 class="mb-4">Seller Dashboard</h2>
     <form method="get" class="mb-4">
-      {{ date_range_form.as_p }}
+      {{ date_range_form.as_table }}
       <button type="submit" class="btn btn-primary">Filter</button>
     </form>
-
     {% if seller_orders %}
-      <h3>Your Sold Products:</h3>
-      <ul>
+  <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Products Name</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Price</th>
+        
+        </tr>
+      </thead>
+      <tbody>
         {% for order_item in seller_orders %}
-          <li>{{ order_item.product.title }} - Quantity: {{ order_item.quantity }} - Price: {{ order_item.price }}</li>
+        <tr>
+          <td>{{ order_item.product.title }}</td>
+          <th scope="row">{{ order_item.quantity }}</th>
+          <td>{{ order_item.price }}</td>
+        </tr>
+       
         {% endfor %}
-      </ul>
-      <p>Total Price of Sold Products: ${{ total_price }}</p>
-    {% else %}
-      <p>No sold products yet.</p>
-    {% endif %}
+        <tr>
+          <td>
+          Total Price of Sold Products: ${{ total_price }}
+        </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
+</div>
+{% else %}
+<div class="col-md-12">
+   <h3> No sold products yet. </h3>
+</div>
+{% endif %}
+</section>
 {% endblock %}

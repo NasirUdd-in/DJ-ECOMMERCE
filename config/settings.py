@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-rv1k8_qc_&apq8zh9&oi&+$^0^@_tk953)1osv9ksn9skib89u
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.1.181']
+ALLOWED_HOSTS = ['192.168.1.181', "127.0.0.1"]
 
 
 # Application definition
@@ -136,6 +136,7 @@ AUTH_USER_MODEL = 'user_account.User'
 
 SESSION_COOKIE_AGE = 86400
 CART_ID = 'cart'
+COUPOON_ID = "coupon"
 
 AUTHENTICATION_BACKENDS = (
 

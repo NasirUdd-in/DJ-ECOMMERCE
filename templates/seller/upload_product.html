@@ -1,0 +1,44 @@
+<!-- upload_product.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container mt-4">
+    <h2 class="mb-4">Upload Product</h2>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="mb-3">
+        {{ form.category.label_tag }}
+        {{ form.category }}
+      </div>
+      <div class="mb-3">
+        {{ form.title.label_tag }}
+        {{ form.title }}
+      </div>
+      <div class="mb-3">
+        {{ form.slug.label_tag }}
+        {{ form.slug }}
+      </div>
+      <div class="mb-3 form-check">
+        {{ form.featured }}
+        {{ form.featured.label_tag }}
+      </div>
+      <div class="mb-3">
+        {{ form.price.label_tag }}
+        {{ form.price }}
+      </div>
+      <div class="mb-3">
+        {{ form.thumbnail.label_tag }}
+        {{ form.thumbnail }}
+      </div>
+      <div class="mb-3">
+        {{ form.description.label_tag }}
+        {{ form.description }}
+      </div>
+      <div class="mb-3 form-check">
+        {{ form.in_stock }}
+        {{ form.in_stock.label_tag }}
+      </div>
+      <button type="submit" class="btn btn-primary">Upload Product</button>
+    </form>
+  </div>
+{% endblock %}

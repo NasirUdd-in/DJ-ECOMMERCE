@@ -1,5 +1,5 @@
 <!-- seller_dashboard.html -->
-{% extends 'base.html' %}
+{% extends 'sidebar.html' %}
 
 {% block content %}
  
@@ -12,41 +12,48 @@
       {{ date_range_form.as_table }}
       <button type="submit" class="btn btn-primary">Filter</button>
     </form>
+
     {% if seller_orders %}
-  <table class="table ">
-      <thead>
-        <tr>
-          <th scope="col" class="bg-warning">Products Name</th>
-          <th scope="col" class="bg-warning">Quantity</th>
-          <th scope="col" class="bg-warning">Price</th>
-        
-        </tr>
-      </thead>
-      <tbody>
-        {% for order_item in seller_orders %}
-        <tr>
-          <td class="bg-info">{{ order_item.product.title }}</td>
-          <th scope="row" class="table-dark">{{ order_item.quantity }}</th>
-          <td class="table-primary">{{ order_item.price }}</td>
-        </tr>
-       
-        {% endfor %}
-        <tr  >
-          <td class="bg-success">
-            Total Price of Sold Products:
-          </td>
-          <td class="bg-success" colspan="2">
-           ${{ total_price }}
-        </td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="card-body">
+      {% comment %} <div class="table-responsive"> {% endcomment %}
+          <table class="table display table-bordered table-striped table-hover sourced">
+              <thead>
+                  <tr>
+                      <th>Products Name</th>
+                      <th>Quantity</th>
+                      <th>Price</th>
+
+                  </tr>
+              </thead>
+              <tbody>
+                {% for order_item in seller_orders %}
+                  <tr>
+                      <td>{{ order_item.product.title }}</td>
+                      <td>{{ order_item.quantity }}</td>
+                      <td>{{ order_item.price }}</td>
+                      
+                    
+                  </tr>
+                  {% endfor %}
+                
+              </tbody>
+              <tfoot>
+                  <tr>
+                      <th>Product Name</th>
+                      <th>Quantity</th>
+                      <th>Price</th>
+                    
+                      
+                  </tr>
+              </tfoot>
+          </table>
+      {% comment %} </div> {% endcomment %}
   </div>
-</div>
-{% else %}
-<div class="col-md-12">
-   <h3> No sold products yet. </h3>
-</div>
-{% endif %}
+  {% else %}
+   <div class="col-md-12">
+      <h3> No sold products yet. </h3>
+   </div>
+   {% endif %}
 </section>
+
 {% endblock %}

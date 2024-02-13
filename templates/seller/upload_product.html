@@ -22,10 +22,10 @@
         {{ form.featured }}
         {{ form.featured.label_tag }}
       </div>
-      <div class="mb-3">
+      {% comment %} <div class="mb-3">
         {{ form.price.label_tag }}
         {{ form.price }}
-      </div>
+      </div> {% endcomment %}
       <div class="mb-3">
         {{ form.thumbnail.label_tag }}
         {{ form.thumbnail }}
@@ -37,6 +37,20 @@
       <div class="mb-3 form-check">
         {{ form.in_stock }}
         {{ form.in_stock.label_tag }}
+      </div>
+      <div class="col-lg-12 py-2">
+        <label for="exampleFormControlSelect1">Category</label>
+        <select name="category" class="form-control" id="exampleFormControlSelect1">
+            {% for categoryy in categories %}
+                <option value="{{ categoryy.id }}">{{ categoryy.title }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    
+     
+      <div class="col-lg-12 py-2">
+        <label for="exampleFormControlInput1">Price</label>
+        <input name="price" type="text" id="exampleFormControlInput1" class="form-control">
       </div>
       <button type="submit" class="btn btn-primary">Upload Product</button>
     </form>

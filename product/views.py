@@ -111,6 +111,7 @@ class SearchProducts(generic.View):
 #seller part begin
 @login_required
 def upload_product(request):
+    categories = Category.objects.all()
     if request.method == 'POST':
         form = ProductForm(request.POST)
         if form.is_valid():
@@ -121,7 +122,7 @@ def upload_product(request):
     else:
         form = ProductForm()
 
-    return render(request, 'seller/upload_product.html', {'form': form})
+    return render(request, 'seller/upload_product.html', {'form': form, 'categories': categories})
 
 
 @login_required

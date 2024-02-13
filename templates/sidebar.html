@@ -895,7 +895,28 @@
         </div>
         <!--/.wrapper-->
     </div>
+    {% block extra_scripts %}
 
-</body>
+    <!--Global script(used by all pages)-->
+    <script src="{% static 'assets/plugins/jQuery/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/metisMenu/metisMenu.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/perfect-scrollbar/dist/perfect-scrollbar.min.js' %}"></script>
+    
+    <!-- Third Party Scripts(used by this page)-->
+    <script src="{% static 'assets/plugins/chartJs/Chart.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/sparkline/sparkline.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/datatables/dataTables.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/datatables/dataTables.bootstrap4.min.js' %}"></script>
+    
+    <!--Page Active Scripts(used by this page)-->
+    <script src="{% static 'assets/dist/js/pages/dashboard.js' %}"></script>
+    
+    <!--Page Scripts(used by all page)-->
+    <script src="{% static 'assets/dist/js/sidebar.js' %}"></script>
+    {% endblock %}
+    </body>
+    
+    </html>
+    
 
-</html>

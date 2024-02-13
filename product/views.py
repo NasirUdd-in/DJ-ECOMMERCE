@@ -4,6 +4,7 @@ from django.views.generic import TemplateView, DetailView
 from django.views import generic
 from cart.carts import Cart
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
 from .forms import ProductForm
 from django.core.paginator import (
     PageNotAnInteger,
@@ -121,3 +122,8 @@ def upload_product(request):
         form = ProductForm()
 
     return render(request, 'seller/upload_product.html', {'form': form})
+
+
+@login_required
+def sidebar(request):
+    return render(request, 'sidebar.html')

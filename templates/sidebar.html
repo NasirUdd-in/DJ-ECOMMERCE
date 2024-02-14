@@ -69,22 +69,19 @@
                                 <i class="typcn typcn-home-outline"></i> Dashboard
                             </a>
                             <ul class="nav-second-level">
-                                <li class="mm-active"><a href="{% url 'upload_product' %}">Upload Product</a></li>
+                                <li class="mm-active"><a href="{% url 'upload-product' %}">Upload Product</a></li>
                                 <li><a href="{% url 'seller_dashboard' %}">Seller Report</a></li>
                                 <li><a href="{% url 'orders' %}">Orders</a></li>
                             </ul>
                         </li>
                         <li>
                             <a class="has-arrow material-ripple" href="#">
-                                <i class="typcn typcn-chart-pie-outline"></i> Charts
+                                <i class="typcn typcn-chart-pie-outline"></i> Products
                             </a>
                             <ul class="nav-second-level">
-                                <li><a href="charts_flot.html">Flot Chart</a></li>
-                                <li><a href="charts_Js.html">Chart js</a></li>
-                                <li><a href="charts_morris.html">Morris Charts</a></li>
-                                <li><a href="charts_sparkline.html">Sparkline Charts</a></li>
-                                <li><a href="charts_am.html">Am Charts</a></li>
-                                <li><a href="charts_apex.html">Chart Apex</a></li>
+                                <li><a href="{% url 'product-by-seller' %}">Product List</a></li>
+                                <li><a href="{% url 'upload-product' %}">Add Product</a></li>
+                               
                             </ul>
                         </li>
                         <li><a href="chat.html"><i class="typcn typcn-messages"></i> Chat</a></li>

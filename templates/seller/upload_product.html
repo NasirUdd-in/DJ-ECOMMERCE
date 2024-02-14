@@ -1,58 +1,14 @@
 <!-- upload_product.html -->
 {% extends 'sidebar.html' %}
-
+{% load crispy_forms_tags %}
 {% block content %}
-  <div class="container mt-4">
+ 
     <h2 class="mb-4">Upload Product</h2>
-    <form method="post" enctype="multipart/form-data">
+    <form method="post">
       {% csrf_token %}
-      <div class="mb-3">
-        {{ form.category.label_tag }}
-        {{ form.category }}
-      </div>
-      <div class="mb-3">
-        {{ form.title.label_tag }}
-        {{ form.title }}
-      </div>
-      <div class="mb-3">
-        {{ form.slug.label_tag }}
-        {{ form.slug }}
-      </div>
-      <div class="mb-3 form-check">
-        {{ form.featured }}
-        {{ form.featured.label_tag }}
-      </div>
-      {% comment %} <div class="mb-3">
-        {{ form.price.label_tag }}
-        {{ form.price }}
-      </div> {% endcomment %}
-      <div class="mb-3">
-        {{ form.thumbnail.label_tag }}
-        {{ form.thumbnail }}
-      </div>
-      <div class="mb-3">
-        {{ form.description.label_tag }}
-        {{ form.description }}
-      </div>
-      <div class="mb-3 form-check">
-        {{ form.in_stock }}
-        {{ form.in_stock.label_tag }}
-      </div>
-      <div class="col-lg-12 py-2">
-        <label for="exampleFormControlSelect1">Category</label>
-        <select name="category" class="form-control" id="exampleFormControlSelect1">
-            {% for categoryy in categories %}
-                <option value="{{ categoryy.id }}">{{ categoryy.title }}</option>
-            {% endfor %}
-        </select>
-    </div>
-    
-     
-      <div class="col-lg-12 py-2">
-        <label for="exampleFormControlInput1">Price</label>
-        <input name="price" type="text" id="exampleFormControlInput1" class="form-control">
-      </div>
-      <button type="submit" class="btn btn-primary">Upload Product</button>
-    </form>
-  </div>
+      {{ form|crispy }}
+      <button type="submit" class="btn btn-primary">Submit</button>
+     </form>
+ 
+
 {% endblock %}

@@ -1,11 +1,14 @@
+from typing import Any
 from django.db.models import Q
+from django.db.models.query import QuerySet
 from django.shortcuts import render, redirect
-from django.views.generic import TemplateView, DetailView
+from django.views.generic import TemplateView, DetailView, ListView
 from django.views import generic
 from cart.carts import Cart
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from .forms import ProductForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import (
     PageNotAnInteger,
     EmptyPage,
@@ -111,7 +114,7 @@ class SearchProducts(generic.View):
 #seller part begin
 @login_required
 def upload_product(request):
-    categories = Category.objects.all()
+    
     if request.method == 'POST':
         form = ProductForm(request.POST)
         if form.is_valid():
@@ -122,9 +125,18 @@ def upload_product(request):
     else:
         form = ProductForm()
 
-    return render(request, 'seller/upload_product.html', {'form': form, 'categories': categories})
+    return render(request, 'seller/upload_product.html', {'form': form})
 
 
 @login_required
 def sidebar(request):
     return render(request, 'sidebar.html')
+
+
+class ProductsBySellerView(LoginRequiredMixin, ListView):
+    model = Product
+    template_name = "product-by-seller.html"
+    context_object_name = 'products'
+    
+    def get_queryset(self):
+        return Product.objects.filter(seller=self.request.user)

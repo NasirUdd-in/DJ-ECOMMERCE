@@ -146,3 +146,11 @@ AUTHENTICATION_BACKENDS = (
 )
 PAYPAL_CLIENT_ID = 'AdWOXhxPLg_D1t_hCATFMO3zFlvcbvNqZSGlP4JB9Fh0jLZp7Ht1cUYj0JVnXrXxsJt9SYl8nNCYae_e'
 PAYPAL_SECRET_ID = 'ECkb5LD528SULIHBKRXlwt1RLHKEAE5JrFEUrFLJtSNUwEpTjfi2Tn7-Lpx9sh4pkaYUys-tEd7JAVw4'
+
+# Email_credentials
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_USE_TLS = "TRUE"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_HOST_USER = "shourav.pau69@gmail.com"
+EMAIL_HOST_PASSWORD = "rmcnrccrkgqdarwd"
+EMAIL_PORT = 587

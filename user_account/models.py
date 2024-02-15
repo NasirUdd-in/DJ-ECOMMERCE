@@ -30,4 +30,14 @@ class User(AbstractBaseUser, PermissionsMixin):
         ordering = ['-date_joined']
 
 
+class SellerType(models.Model):
+    SELLER_TYPES = [
+        ('Limited', 'Limited'),
+        ('Unlimited', 'Unlimited'),
+    ]
 
+    seller_type = models.CharField(max_length=20, choices=SELLER_TYPES)
+    seller = models.OneToOneField(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.seller_type} Seller"

@@ -124,7 +124,7 @@ def upload_product(request):
             product = form.save(commit=False)
             product.seller = request.user
             product.save()
-            return redirect('upload_product')  # Redirect to a view displaying the list of products
+            return redirect('/upload_product')  # Redirect to a view displaying the list of products
     else:
         form = ProductForm()
 

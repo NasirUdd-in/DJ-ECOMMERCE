@@ -7,7 +7,9 @@ from .views import(
     SearchProducts,
     ProductsBySellerView,
     upload_product,
-    sidebar
+    sidebar,
+    AddCategoryView,
+    CategoryListView
 )
 
 urlpatterns = [
@@ -19,4 +21,7 @@ urlpatterns = [
     path('product-by-seller/', ProductsBySellerView.as_view(), name="product-by-seller"),
     path('upload_product/', upload_product, name="upload-product"),
     path('sidebar/', sidebar, name='sidebar'),
+    
+    path('add-category/', AddCategoryView.as_view(), name='add-category'),
+    path('category-list/', CategoryListView.as_view(), name='category-list'),
 ]

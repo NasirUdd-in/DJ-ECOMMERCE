@@ -7,7 +7,10 @@ from django.views import generic
 from cart.carts import Cart
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
-from .forms import ProductForm
+from django.urls import reverse_lazy
+from django.views.generic.edit import CreateView
+
+from .forms import ProductForm, CategoryForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import (
     PageNotAnInteger,
@@ -140,3 +143,15 @@ class ProductsBySellerView(LoginRequiredMixin, ListView):
     
     def get_queryset(self):
         return Product.objects.filter(seller=self.request.user)
+    
+class AddCategoryView(CreateView):
+    model = Category
+    form_class = CategoryForm
+    template_name = "product/add-category.html"
+    success_url = reverse_lazy('category-list')
+    
+    
+class CategoryListView(ListView):
+    model = Category
+    template_name = "product/category-list.html"
+    context_object_name = 'categories'

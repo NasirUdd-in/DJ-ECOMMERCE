@@ -9,6 +9,11 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
+from django.http import HttpResponse
+
+from django.contrib import messages
+from django.views import View
+from django.urls import reverse_lazy
 
 from .forms import ProductForm, CategoryForm
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -24,6 +29,8 @@ from .models import(
     Product,
     Slider
 )
+
+from user_account.models import SellerType
 # Create your views here.
 class Home(TemplateView):
     template_name = "home.html"
@@ -38,7 +45,7 @@ class Home(TemplateView):
             }
         )
         return context
-        
+
 class ProductDetails(DetailView):
     model = Product
     template_name = 'product/product-details.html'
@@ -51,8 +58,8 @@ class ProductDetails(DetailView):
         # Assuming you have a related field named 'related' in your Product model
         context['related_products'] = current_product.related.all()
         return context
-    
-    
+
+
 
 class CategorytDetails(generic.DetailView):
     model = Category
@@ -61,7 +68,7 @@ class CategorytDetails(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['products'] = self.get_object().products.all() 
+        context['products'] = self.get_object().products.all()
         return context
 class CustomPaginator:
     def __init__(self, request, queryset, paginated_by) -> None:
@@ -110,25 +117,55 @@ class SearchProducts(generic.View):
             "key": key
         }
         return render(self.request, 'product/search-products.html', context)
-        
-        
 
 
-#seller part begin
+
+
+# #seller part begin
+# @login_required
+# def upload_product(request):
+
+#     if request.method == 'POST':
+#         form = ProductForm(request.POST)
+#         if form.is_valid():
+#             product = form.save(commit=False)
+#             product.seller = request.user
+#             product.save()
+#             return redirect('/upload_product')  # Redirect to a view displaying the list of products
+#     else:
+#         form = ProductForm()
+
+#     return render(request, 'seller/upload_product.html', {'form': form})
+
 @login_required
 def upload_product(request):
-    
+    user = request.user
+
+    # Check if the seller type is limited
+    try:
+        seller_type = user.sellertype.seller_type
+    except SellerType.DoesNotExist:
+        seller_type = 'Unlimited'  # Assuming default is Unlimited if SellerType does not exist for the user
+
+    # Check the number of products uploaded by the seller
+    if seller_type == 'Limited':
+        num_products_uploaded = Product.objects.filter(seller=user).count()
+        if num_products_uploaded >= 2:
+            message = "You have reached the maximum limit for product uploads!"
+            return render(request, 'seller/upload_product.html', {'message': message})
+
     if request.method == 'POST':
         form = ProductForm(request.POST)
         if form.is_valid():
             product = form.save(commit=False)
-            product.seller = request.user
+            product.seller = user
             product.save()
             return redirect('/upload_product')  # Redirect to a view displaying the list of products
     else:
         form = ProductForm()
 
     return render(request, 'seller/upload_product.html', {'form': form})
+
 
 
 @login_required
@@ -140,18 +177,29 @@ class ProductsBySellerView(LoginRequiredMixin, ListView):
     model = Product
     template_name = "product-by-seller.html"
     context_object_name = 'products'
-    
+
     def get_queryset(self):
         return Product.objects.filter(seller=self.request.user)
-    
+
 class AddCategoryView(CreateView):
     model = Category
     form_class = CategoryForm
     template_name = "product/add-category.html"
     success_url = reverse_lazy('category-list')
-    
-    
+
+
 class CategoryListView(ListView):
     model = Category
     template_name = "product/category-list.html"
     context_object_name = 'categories'
+
+
+class ProductDeleteView(LoginRequiredMixin, View):
+    model = Product
+    success_url = reverse_lazy('product-by-seller')  
+
+    def post(self, request, pk):
+        product = self.model.objects.get(pk=pk, seller=request.user)
+        product.delete()
+        messages.success(request, 'Product deleted successfully!')
+        return redirect(self.success_url)

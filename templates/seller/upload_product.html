@@ -2,13 +2,15 @@
 {% extends 'sidebar.html' %}
 {% load crispy_forms_tags %}
 {% block content %}
- 
+
     <h2 class="mb-4">Upload Product</h2>
+    <h1 class="text-danger">{{ message }}</h1>
+    {% if not message %}
     <form method="post">
       {% csrf_token %}
       {{ form|crispy }}
       <button type="submit" class="btn btn-primary">Submit</button>
      </form>
- 
+    {% endif %}
 
 {% endblock %}

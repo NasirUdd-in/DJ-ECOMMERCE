@@ -5,8 +5,8 @@
   <h2>Products by {{ request.user.username }}</h2>
 
   {% if products %}
-    
-   
+
+
     <div class="card-body">
         {% comment %} <div class="table-responsive"> {% endcomment %}
             <table class="table display table-bordered table-striped table-hover sourced">
@@ -16,7 +16,8 @@
                         <th>Product Name</th>
                         <th>Price</th>
                         <th>Category</th>
-  
+                        <th>Actions</th>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -25,15 +26,20 @@
                         <td>
                             <img src="{{ product.thumbnail }}" style="width: 100px; height: 100px;" alt="Product Thumbnail">
                         </td>
-                        
+
                         <td>{{ product.title }}</td>
                         <td>{{ product.price}}</td>
                         <td>{{ product.category }}</td>
-                        
-                      
+                        <td>
+                        <form method="post" action="{% url 'product_delete' pk=product.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+
+                    </td>
                     </tr>
                     {% endfor %}
-                  
+
                 </tbody>
                 <tfoot>
                     <tr>

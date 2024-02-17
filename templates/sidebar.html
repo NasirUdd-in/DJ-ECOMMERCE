@@ -28,7 +28,7 @@
 </head>
 
 <body class="fixed sidebar-mini">
-   
+
     <div class="wrapper">
         <!-- Sidebar  -->
         <nav class="sidebar sidebar-bunker">
@@ -76,12 +76,32 @@
                         </li>
                         <li>
                             <a class="has-arrow material-ripple" href="#">
+                                <i class="typcn typcn-chart-pie-outline"></i>Seller
+                            </a>
+                            <ul class="nav-second-level">
+                                <li><a href="{% url 'staff_users_list' %}">Seller List</a></li>
+                                <li><a href="{% url 'staff_users_list' %}">Add Seller</a></li>
+
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="has-arrow material-ripple" href="#">
+                                <i class="typcn typcn-chart-pie-outline"></i>Customer
+                            </a>
+                            <ul class="nav-second-level">
+                                <li><a href="{% url 'customer_list' %}">Customer List</a></li>
+                                <li><a href="{% url 'customer_list' %}">Add Customer</a></li>
+
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="has-arrow material-ripple" href="#">
                                 <i class="typcn typcn-chart-pie-outline"></i> Products
                             </a>
                             <ul class="nav-second-level">
                                 <li><a href="{% url 'product-by-seller' %}">Product List</a></li>
                                 <li><a href="{% url 'upload-product' %}">Add Product</a></li>
-                               
+
                             </ul>
                         </li>
 
@@ -92,7 +112,7 @@
                             <ul class="nav-second-level">
                                 <li><a href="{% url 'category-list' %}">Category List</a></li>
                                 <li><a href="{% url 'add-category' %}">Add Category</a></li>
-                               
+
                             </ul>
                         </li>
                         <li><a href="chat.html"><i class="typcn typcn-messages"></i> Chat</a></li>
@@ -127,9 +147,9 @@
                                 <li><a href="tables_jsgrid.html">Jsgrid table</a></li>
                             </ul>
                         </li>
-    
-            
-                    
+
+
+
                         <li>
                             <a class="has-arrow material-ripple" href="#">
                                 <i class="typcn typcn-book"></i> Authentication
@@ -144,8 +164,8 @@
                                 <li><a href="505.html">505 Error</a></li>
                             </ul>
                         </li>
-                     
-            
+
+
                     </ul>
                 </nav>
             </div>
@@ -168,9 +188,9 @@
                             <li class="nav-item active">
                                 <a class="nav-link" href="#"><i class="typcn typcn-social-dribbble top-menu-icon"></i>Buyer's & Style<span class="sr-only">(current)</span></a>
                             </li>
-                    
+
                             <li class="nav-item dropdown">
-                               
+
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item" href="#">Salary Break Down</a></li>
                                 </ul>
@@ -360,16 +380,16 @@
     <script src="{% static 'assets/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static 'assets/plugins/metisMenu/metisMenu.min.js' %}"></script>
     <script src="{% static 'assets/plugins/perfect-scrollbar/dist/perfect-scrollbar.min.js' %}"></script>
-    
+
     <!-- Third Party Scripts(used by this page)-->
     <script src="{% static 'assets/plugins/chartJs/Chart.min.js' %}"></script>
     <script src="{% static 'assets/plugins/sparkline/sparkline.min.js' %}"></script>
     <script src="{% static 'assets/plugins/datatables/dataTables.min.js' %}"></script>
     <script src="{% static 'assets/plugins/datatables/dataTables.bootstrap4.min.js' %}"></script>
-    
+
     <!--Page Active Scripts(used by this page)-->
     <script src="{% static 'assets/dist/js/pages/dashboard.js' %}"></script>
-    
+
     <!--Page Scripts(used by all page)-->
     <script src="{% static 'assets/dist/js/sidebar.js' %}"></script>
 
@@ -381,7 +401,7 @@
 
     {% endblock %}
     </body>
-    
+
     </html>
-    
+
 

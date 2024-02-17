@@ -53,7 +53,7 @@ class UserRegistrationForm(forms.ModelForm):
             raise forms.ValidationError("A user with the Username already exists")
 
         return username
-    
+
     def clean_email(self):
         email = self.cleaned_data.get('email')
         model = self.Meta.model
@@ -70,7 +70,7 @@ class UserRegistrationForm(forms.ModelForm):
         if password != password2:
             raise forms.ValidationError("Password mismatch")
 
-        return password           
+        return password
 
     def save(self, commit=True, *args, **kwargs):
         user = self.instance
@@ -106,7 +106,7 @@ class ChangePasswordForm(forms.Form):
         self.fields['current_password'].widget.attrs.update({"placeholder": "Enter your current password"})
         self.fields['new_password1'].widget.attrs.update({"placeholder": "Enter your new password"})
         self.fields['new_password2'].widget.attrs.update({"placeholder": "Enter your confirm password"})
-        
+
     def clean_current_password(self, *args, **kwargs):
         current_password = self.cleaned_data.get('current_password')
 
@@ -146,9 +146,9 @@ class SendEmailForm(PasswordResetForm, threading.Thread):
                 self.context,
                 self.from_email,
                 self.to_email,
-                self.html_email_template_name, 
+                self.html_email_template_name,
             )
-            
+
         def send_mail(self, subject_template_name, email_template_name, context, from_email, to_email, html_email_template_name):
             self.subject_template_name = subject_template_name
             self.email_template_name = email_template_name
@@ -156,7 +156,7 @@ class SendEmailForm(PasswordResetForm, threading.Thread):
             self.from_email = from_email
             self.to_email = to_email
             self.html_email_template_name = html_email_template_name
-            
+
             self.start()
 
 
@@ -180,7 +180,7 @@ class ResetPasswordConfirmForm(forms.Form):
     def clean_new_password1(self, *args, **kwargs):
         new_password1 = self.cleaned_data.get('new_password1')
         new_password2 = self.data.get('new_password2')
-        
+
         if new_password1 and new_password2:
             if new_password1 != new_password2:
                 raise forms.ValidationError("Password mismatch")
@@ -194,3 +194,8 @@ class ResetPasswordConfirmForm(forms.Form):
             self.user.save()
 
         return self.user
+
+
+
+#registraion for merchant
+

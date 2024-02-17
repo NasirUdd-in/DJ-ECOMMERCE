@@ -10,7 +10,10 @@ from .views import (
     Registration,
     ChangePassword,
     SendEmailToResetPassword,
-    ResetPasswordConfirm
+    ResetPasswordConfirm,
+    SellerRegistrationView,
+    SellerListView,
+     CustomerListView
 )
 
 
@@ -23,5 +26,8 @@ urlpatterns = [
     path('password-reset/done/', PasswordResetDoneView.as_view(template_name='account/password_reset_done.html'), name='password_reset_done'),
     path('reset/<uidb64>/<token>/', ResetPasswordConfirm.as_view(), name='password_reset_confirm'),
 
+    path('seller-registration/', SellerRegistrationView.as_view(), name='seller-registration'),
+    path('seller-list/', SellerListView.as_view(), name='staff_users_list'),
+    path('customer-list/', CustomerListView.as_view(), name='customer_list'),
 
 ]

@@ -7,6 +7,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.cache import never_cache
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import authenticate, login, logout
+from django.views.generic import ListView
 from django.contrib.auth.views import (
     PasswordResetView,
     PasswordResetConfirmView
@@ -24,6 +25,7 @@ from .mixins import (
 )
 
 from cart.carts import Cart
+from .models import User,SellerType
 
 @method_decorator(never_cache, name='dispatch')
 class Login(LogoutRequiredMixin, generic.View):
@@ -60,7 +62,7 @@ class Logout(generic.View):
         current_cart = copy.deepcopy(cart.cart)
         logout(self.request)
         cart.restore_after_logout (current_cart)
-        return redirect('login') 
+        return redirect('login')
 
 
 @method_decorator(never_cache, name='dispatch')
@@ -109,3 +111,38 @@ class ResetPasswordConfirm(PasswordResetConfirmView):
         return super().form_valid(form)
 
 
+
+#registraion for merchant
+@method_decorator(never_cache, name='dispatch')
+class SellerRegistrationView(generic.CreateView):
+    template_name = 'account/registration.html'  # Assuming the same template is used
+    form_class = UserRegistrationForm  # Use the same form for both customers and sellers
+    success_url = reverse_lazy('login')
+
+    def form_valid(self, form):
+        # Set is_staff to True for seller registration
+        form.instance.is_staff = True
+        messages.success(self.request, "Seller registration successful!")
+        return super().form_valid(form)
+
+# class SellerListView(ListView):
+#     model = User
+#     template_name = 'seller/seller_list.html'
+#     context_object_name = 'seller_list'
+
+#     def get_queryset(self):
+#         return User.objects.filter(is_staff=True, is_superuser=False)
+
+class SellerListView(ListView):
+    model = SellerType
+    template_name = 'seller/seller_list.html'
+    context_object_name = 'seller_types'
+
+
+class CustomerListView(ListView):
+    model = User
+    template_name = 'customer/customer_list.html'
+    context_object_name = 'customer_list'
+
+    def get_queryset(self):
+        return User.objects.filter(is_staff=False, is_superuser=False)

@@ -33,9 +33,10 @@
                         <td>
                         <form method="post" action="{% url 'product_delete' pk=product.id %}">
                             {% csrf_token %}
-                            <button type="submit" class="btn btn-danger">Delete</button>
+                            <button type="submit"class="btn btn-danger-soft btn-sm"><i class="far fa-trash-alt"></i></button>
                         </form>
 
+                       
                     </td>
                     </tr>
                     {% endfor %}

@@ -4,7 +4,9 @@ from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.validators import UnicodeUsernameValidator
 
+
 from .managers import UserManager
+
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -41,3 +43,6 @@ class SellerType(models.Model):
 
     def __str__(self):
         return f"{self.seller_type} Seller"
+
+
+

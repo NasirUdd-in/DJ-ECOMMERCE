@@ -1,0 +1,58 @@
+{% extends 'sidebar.html' %}
+
+{% block content %}
+  <h2>Customer LIST</h2>
+
+  {% if customer_list %}
+
+
+    <div class="card-body">
+        {% comment %} <div class="table-responsive"> {% endcomment %}
+            <table class="table display table-bordered table-striped table-hover sourced">
+                <thead>
+                    <tr>
+
+                        <th>User Name</th>
+                        <th>Email</th>
+                        <th>Date Joined</th>
+                        <th>Actions</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in customer_list %}
+                    <tr>
+
+
+                        <td> {{ user.username }}</td>
+                        <td> {{ user.email }}</td>
+                        <td>{{ user.date_joined }}</td>
+                        <td>
+                        <form method="post" action="{% url 'staff_users_list'  %}">
+                            {% csrf_token %}
+                            <button type="submit"class="btn btn-danger-soft btn-sm"><i class="far fa-trash-alt"></i></button>
+                        </form>
+
+
+                    </td>
+                    </tr>
+                    {% endfor %}
+
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>User Name</th>
+                        <th>Email</th>
+                        <th>Date Joined</th>
+                        <th>Actions</th>
+
+                    </tr>
+                </tfoot>
+            </table>
+        {% comment %} </div> {% endcomment %}
+    </div>
+  {% else %}
+    <p>No Customer available </p>
+  {% endif %}
+{% endblock %}
+

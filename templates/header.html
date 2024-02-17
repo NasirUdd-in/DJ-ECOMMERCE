@@ -1,5 +1,18 @@
 {% load static %}
 <!-- Header Section Begin -->
+<nav class="navbar navbar-expand-lg navbar-light bg-dark">
+
+
+
+  <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+
+    </ul>
+    <a class="text-white" href="{% url 'seller-registration' %}">Become Seller</a>
+
+
+  </div>
+</nav>
 <header class="header-section">
   <div class="container-fluid">
     <div class="inner-header">
@@ -43,7 +56,7 @@
           {% if user.is_staff %}
           <li>
             <a href="#">Seller Dashboard</a>
-         
+
           <ul class="sub-menu">
           <li><a href="{% url 'upload-product' %}">Upload Product</a></li>
           <li><a href="{% url 'seller_dashboard' %}">Report</a></li>

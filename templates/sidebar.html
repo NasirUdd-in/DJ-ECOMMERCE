@@ -70,7 +70,13 @@
                             </a>
                             <ul class="nav-second-level">
                                 <li><a href="{% url 'seller_dashboard' %}">My Report</a></li>
+                                {% if  request.user.is_authenticated %}
+                                {% if not request.user.is_superuser %}
+                                {% if not request.user.is_staff %}
                                 <li><a href="{% url 'orders' %}">Orders</a></li>
+                                {% endif %}
+                                {% endif %}
+                                {% endif %}
                             </ul>
                         </li>
                         {% if request.user.is_authenticated %}
@@ -98,6 +104,8 @@
                         </li>
                         {% endif %}
                         {% endif %}
+                        {% if request.user.is_authenticated %}
+                        {% if request.user.is_staff %}
                         <li>
                             <a class="has-arrow material-ripple" href="#">
                                 <i class="typcn typcn-chart-pie-outline"></i> Products
@@ -108,8 +116,21 @@
 
                             </ul>
                         </li>
+                        {% endif %}
+                        {% endif %}
                         {% if request.user.is_authenticated %}
                         {% if request.user.is_superuser %}
+                        <li>
+                            <a class="has-arrow material-ripple" href="#">
+                                <i class="typcn typcn-chart-pie-outline"></i> Products
+                            </a>
+                            <ul class="nav-second-level">
+                                <li><a href="{% url 'product-by-seller' %}">Product List</a></li>
+                                <li><a href="{% url 'upload-product' %}">Add Product</a></li>
+
+                            </ul>
+                        </li>
+
                         <li>
                             <a class="has-arrow material-ripple" href="#">
                                 <i class="typcn typcn-chart-pie-outline"></i> Category

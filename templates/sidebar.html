@@ -69,11 +69,12 @@
                                 <i class="typcn typcn-home-outline"></i> Dashboard
                             </a>
                             <ul class="nav-second-level">
-                                <li class="mm-active"><a href="{% url 'upload-product' %}">Upload Product</a></li>
-                                <li><a href="{% url 'seller_dashboard' %}">Seller Report</a></li>
+                                <li><a href="{% url 'seller_dashboard' %}">My Report</a></li>
                                 <li><a href="{% url 'orders' %}">Orders</a></li>
                             </ul>
                         </li>
+                        {% if request.user.is_authenticated %}
+                        {% if request.user.is_superuser %}
                         <li>
                             <a class="has-arrow material-ripple" href="#">
                                 <i class="typcn typcn-chart-pie-outline"></i>Seller
@@ -85,6 +86,7 @@
                             </ul>
                         </li>
                         <li>
+
                             <a class="has-arrow material-ripple" href="#">
                                 <i class="typcn typcn-chart-pie-outline"></i>Customer
                             </a>
@@ -94,6 +96,8 @@
 
                             </ul>
                         </li>
+                        {% endif %}
+                        {% endif %}
                         <li>
                             <a class="has-arrow material-ripple" href="#">
                                 <i class="typcn typcn-chart-pie-outline"></i> Products
@@ -104,7 +108,8 @@
 
                             </ul>
                         </li>
-
+                        {% if request.user.is_authenticated %}
+                        {% if request.user.is_superuser %}
                         <li>
                             <a class="has-arrow material-ripple" href="#">
                                 <i class="typcn typcn-chart-pie-outline"></i> Category
@@ -115,55 +120,10 @@
 
                             </ul>
                         </li>
-                        <li><a href="chat.html"><i class="typcn typcn-messages"></i> Chat</a></li>
-                        <li>
-                            <a class="has-arrow material-ripple" href="#">
-                                <i class="typcn typcn-mail"></i> Mailbox
-                            </a>
-                            <ul class="nav-second-level">
-                                <li><a href="mailbox.html">Mailbox</a></li>
-                                <li><a href="mailbox_details.html">Mailbox Details</a></li>
-                                <li><a href="compose.html">Compose</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a class="has-arrow material-ripple" href="#">
-                                <i class="typcn typcn-archive"></i> Tables
-                            </a>
-                            <ul class="nav-second-level">
-                                <li><a href="tables_bootstrap.html">Bootstrap tables</a></li>
-                                <li>
-                                    <a class="has-arrow" href="#" aria-expanded="false">Data tables</a>
-                                    <ul class="nav-third-level">
-                                        <li><a href="tables_data_basic.html">Basic initialization</a></li>
-                                        <li><a href="tables_data_sources.html">Data sources</a></li>
-                                        <li><a href="tables_data_api.html">API</a></li>
-                                        <li><a href="tables_data_styling.html">Styling</a></li>
-                                        <li><a href="tables_data_advanced.html">Advanced initialization</a></li>
-                                        <li><a href="tables_data_bootstrap4.html">Bootstrap4</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="tables_foo.html">FooTable</a></li>
-                                <li><a href="tables_jsgrid.html">Jsgrid table</a></li>
-                            </ul>
-                        </li>
+                        {% endif %}
+                        {% endif %}
 
 
-
-                        <li>
-                            <a class="has-arrow material-ripple" href="#">
-                                <i class="typcn typcn-book"></i> Authentication
-                            </a>
-                            <ul class="nav-second-level">
-                                <li><a href="login.html">Login</a></li>
-                                <li><a href="register.html">Register</a></li>
-                                <li><a href="user_profile.html">Profile</a></li>
-                                <li><a href="forget_password.html">Forget password</a></li>
-                                <li><a href="lockscreen.html">Lockscreen</a></li>
-                                <li><a href="404.html">404 Error</a></li>
-                                <li><a href="505.html">505 Error</a></li>
-                            </ul>
-                        </li>
 
 
                     </ul>

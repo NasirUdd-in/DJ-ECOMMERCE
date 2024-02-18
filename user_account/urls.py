@@ -13,7 +13,8 @@ from .views import (
     ResetPasswordConfirm,
     SellerRegistrationView,
     SellerListView,
-     CustomerListView
+    CustomerListView,
+    AddSellerTypeView
 )
 
 
@@ -29,5 +30,8 @@ urlpatterns = [
     path('seller-registration/', SellerRegistrationView.as_view(), name='seller-registration'),
     path('seller-list/', SellerListView.as_view(), name='staff_users_list'),
     path('customer-list/', CustomerListView.as_view(), name='customer_list'),
+
+    path('add-seller/', AddSellerTypeView.as_view(), name='add_seller'),
+
 
 ]

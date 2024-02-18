@@ -7,7 +7,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.cache import never_cache
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import authenticate, login, logout
-from django.views.generic import ListView
+from django.views.generic import ListView, CreateView
 from django.contrib.auth.views import (
     PasswordResetView,
     PasswordResetConfirmView
@@ -18,7 +18,8 @@ from .forms import (
     UserRegistrationForm,
     ChangePasswordForm,
     SendEmailForm,
-    ResetPasswordConfirmForm
+    ResetPasswordConfirmForm,
+    SellerTypeForm
 )
 from .mixins import (
     LogoutRequiredMixin
@@ -146,3 +147,20 @@ class CustomerListView(ListView):
 
     def get_queryset(self):
         return User.objects.filter(is_staff=False, is_superuser=False)
+
+
+class AddSellerTypeView(CreateView):
+    model = SellerType
+    form_class = SellerTypeForm
+    template_name = "seller/add-seller.html"
+    success_url = reverse_lazy('staff_users_list')
+
+    def form_valid(self, form):
+        # Set is_active to True for the related User instance
+        form.instance.seller.is_active = True
+
+        # Save both SellerType and User instances to the database
+        response = super().form_valid(form)
+        form.instance.seller.save()
+
+        return response

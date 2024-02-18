@@ -3,7 +3,7 @@ import threading
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import PasswordResetForm
-
+from .models import SellerType
 
 User = get_user_model()
 
@@ -197,5 +197,12 @@ class ResetPasswordConfirmForm(forms.Form):
 
 
 
-#registraion for merchant
+class SellerTypeForm(forms.ModelForm):
+    class Meta:
+        model = SellerType
+        fields = ['seller','seller_type']
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Customize the queryset to get the sellers you want to display in the form
+        self.fields['seller'].queryset = User.objects.filter(is_staff=True, is_superuser=False)

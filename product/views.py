@@ -196,10 +196,11 @@ class CategoryListView(ListView):
 
 class ProductDeleteView(LoginRequiredMixin, View):
     model = Product
-    success_url = reverse_lazy('product-by-seller')  
+    success_url = reverse_lazy('product-by-seller')
 
     def post(self, request, pk):
         product = self.model.objects.get(pk=pk, seller=request.user)
         product.delete()
         messages.success(request, 'Product deleted successfully!')
         return redirect(self.success_url)
+

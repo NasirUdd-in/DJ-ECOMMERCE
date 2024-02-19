@@ -116,13 +116,17 @@ from .models import OrderItem, Product
 @login_required
 def seller_dashboard(request):
     date_range_form = DateRangeForm(request.GET)
-
-    if request.user.is_staff:
+    
+    if request.user.is_superuser:
         # If the user is an admin, show all sold products
+        
         seller_orders = OrderItem.objects.all()
-    else:
-        # If the user is a normal user, show only their sold products
-        seller_orders = OrderItem.objects.filter(product__seller=request.user)
+    elif request.user.is_staff and request.user.is_active:
+        # If the user is an seller, show all sold products
+        orders = Order.objects.filter(user=request.user)
+        seller_orders = OrderItem.objects.none()  # Initialize as an empty queryset
+        for order in orders:
+            seller_orders |= order.order_items.all()
 
     # Handle date range filtering
     if date_range_form.is_valid():
@@ -134,7 +138,13 @@ def seller_dashboard(request):
             seller_orders = seller_orders.filter(order__created_date__lte=end_date)
 
     # Calculate the total price of all sold products
-    total_price = seller_orders.aggregate(Sum('price'))['price__sum'] or 0
+    if request.user.is_staff and request.user.is_active:
+        sum = 0
+        for orders in seller_orders:
+            sum = sum + orders.price
+        total_price = sum
+    else:
+        total_price = seller_orders.aggregate(Sum('price'))['price__sum'] or 0
 
     return render(request, 'seller/seller_dashboard.html', {'seller_orders': seller_orders, 'total_price': total_price, 'date_range_form': date_range_form})
 

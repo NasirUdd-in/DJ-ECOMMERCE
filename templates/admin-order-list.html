@@ -1,0 +1,65 @@
+
+{% extends 'sidebar.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+  <h2>SELLER LIST</h2>
+
+  {% if orders %}
+
+
+    <div class="card-body">
+        {% comment %} <div class="table-responsive"> {% endcomment %}
+            <table class="table display table-bordered table-striped table-hover sourced">
+                <thead>
+                    <tr>
+
+                        <tr>
+                            <th>Order ID</th>
+                            <th>User</th>
+                            <th>Total</th>
+                            <th>Status</th>
+
+                            <!-- Add more columns as needed -->
+                        </tr>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                    <tr>
+                        <td>{{ order.id }}</td>
+                        <td>{{ order.user.username }}</td>
+                        <td>${{ order.total }}</td>
+                        <td>
+                            <form method="post" action="{% url 'order_list' %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="order_id" value="{{ order.id }}">
+
+                                    {{ status_update_form.as_p }}
+
+
+                            </form>
+                        </td>
+
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>User</th>
+                        <th>Total</th>
+                        <th>Status</th>
+
+                        <!-- Add more columns as needed -->
+                    </tr>
+                </tfoot>
+            </table>
+        {% comment %} </div> {% endcomment %}
+    </div>
+  {% else %}
+    <p>No order available </p>
+  {% endif %}
+{% endblock %}
+

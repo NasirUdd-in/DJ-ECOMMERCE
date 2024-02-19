@@ -3,7 +3,7 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-  <h2>SELLER LIST</h2>
+  <h2>Order LIST</h2>
 
   {% if orders %}
 
@@ -17,6 +17,7 @@
                         <tr>
                             <th>Order ID</th>
                             <th>User</th>
+                            <th>Address</th>
                             <th>Total</th>
                             <th>Status</th>
 
@@ -29,13 +30,14 @@
                     <tr>
                         <td>{{ order.id }}</td>
                         <td>{{ order.user.username }}</td>
+                        <td>{{ order.address }}</td>
                         <td>${{ order.total }}</td>
                         <td>
                             <form method="post" action="{% url 'order_list' %}">
                                 {% csrf_token %}
                                 <input type="hidden" name="order_id" value="{{ order.id }}">
 
-                                    {{ status_update_form.as_p }}
+                                    {{ status_update_form|crispy }}
 
 
                             </form>
@@ -49,6 +51,7 @@
                     <tr>
                         <th>Order ID</th>
                         <th>User</th>
+                        <th>Address</th>
                         <th>Total</th>
                         <th>Status</th>
 

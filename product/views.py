@@ -155,7 +155,7 @@ def upload_product(request):
             return render(request, 'seller/upload_product.html', {'message': message})
 
     if request.method == 'POST':
-        form = ProductForm(request.POST)
+        form = ProductForm(request.POST, request.FILES)
         if form.is_valid():
             product = form.save(commit=False)
             product.seller = user

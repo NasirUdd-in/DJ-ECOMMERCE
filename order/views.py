@@ -10,7 +10,7 @@ from cart.carts import Cart
 from .models import OrderItem, Order, Product
 from product.models import Product
 
-
+from django.views.generic import ListView
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from .models import OrderItem
@@ -18,7 +18,8 @@ from .models import OrderItem
 from django.db.models import Sum
 from .forms import DateRangeForm
 
-
+from .models import Order
+from .forms import OrderStatusUpdateForm
 
 
 class Checkout (LoginRequiredMixin, generic.View):
@@ -136,3 +137,31 @@ def seller_dashboard(request):
     total_price = seller_orders.aggregate(Sum('price'))['price__sum'] or 0
 
     return render(request, 'seller/seller_dashboard.html', {'seller_orders': seller_orders, 'total_price': total_price, 'date_range_form': date_range_form})
+
+
+
+class OrderListView(ListView):
+    model = Order
+    template_name = 'admin-order-list.html'
+    context_object_name = 'orders'
+    ordering = ['-created_date']
+
+
+class OrderListView(ListView):
+    model = Order
+    template_name = 'admin-order-list.html'
+    context_object_name = 'orders'
+    ordering = ['-created_date']
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['status_update_form'] = OrderStatusUpdateForm()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        order_id = request.POST.get('order_id')
+        order = Order.objects.get(id=order_id)
+        form = OrderStatusUpdateForm(request.POST, instance=order)
+        if form.is_valid():
+            form.save()
+        return redirect('order_list')  # Update this with your actual URL name

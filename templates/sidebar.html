@@ -98,7 +98,7 @@
                             </a>
                             <ul class="nav-second-level">
                                 <li><a href="{% url 'customer_list' %}">Customer List</a></li>
-                                <li><a href="{% url 'customer_list' %}">Add Customer</a></li>
+                                <li><a href="{% url 'add_user' %}">Add Customer</a></li>
 
                             </ul>
                         </li>
@@ -106,6 +106,7 @@
                         {% endif %}
                         {% if request.user.is_authenticated %}
                         {% if request.user.is_staff %}
+                        {% if not request.user.is_superuser %}
                         <li>
                             <a class="has-arrow material-ripple" href="#">
                                 <i class="typcn typcn-chart-pie-outline"></i> Products
@@ -116,6 +117,7 @@
 
                             </ul>
                         </li>
+                        {% endif %}
                         {% endif %}
                         {% endif %}
                         {% if request.user.is_authenticated %}

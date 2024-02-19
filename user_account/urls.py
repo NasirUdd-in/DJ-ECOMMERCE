@@ -14,7 +14,8 @@ from .views import (
     SellerRegistrationView,
     SellerListView,
     CustomerListView,
-    AddSellerTypeView
+    AddSellerTypeView,
+    AddUserView
 )
 
 
@@ -32,6 +33,6 @@ urlpatterns = [
     path('customer-list/', CustomerListView.as_view(), name='customer_list'),
 
     path('add-seller/', AddSellerTypeView.as_view(), name='add_seller'),
-
+    path('add-user/', AddUserView.as_view(), name='add_user'),
 
 ]

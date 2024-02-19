@@ -17,9 +17,9 @@ class OrderItem (models. Model):
 
 class Order (models.Model):
         STATUS = ('Recieved', 'On the way', 'Delivered')
-        
-        user = models.ForeignKey (settings.AUTH_USER_MODEL, related_name='orders', on_delete=models.CASCADE)
-        order_items = models. ManyToManyField (OrderItem)
+
+        user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='orders', on_delete=models.CASCADE)
+        order_items = models.ManyToManyField(OrderItem)
         first_name=models.CharField(max_length=100)
         last_name = models.CharField(max_length=100)
         email = models.EmailField(max_length=150)

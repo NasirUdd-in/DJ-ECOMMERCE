@@ -4,6 +4,8 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import PasswordResetForm
 from .models import SellerType
+from django.contrib.auth.forms import UserCreationForm
+from .models import User
 
 User = get_user_model()
 
@@ -206,3 +208,10 @@ class SellerTypeForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         # Customize the queryset to get the sellers you want to display in the form
         self.fields['seller'].queryset = User.objects.filter(is_staff=True, is_superuser=False)
+
+
+class UserCreationFormExtended(UserCreationForm):
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'password1', 'password2','is_active')
+

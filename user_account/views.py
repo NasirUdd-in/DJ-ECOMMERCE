@@ -28,6 +28,10 @@ from .mixins import (
 from cart.carts import Cart
 from .models import User,SellerType
 
+
+from django.views import View
+from .forms import UserCreationFormExtended
+
 @method_decorator(never_cache, name='dispatch')
 class Login(LogoutRequiredMixin, generic.View):
     def get(self, *args, **kwargs):
@@ -164,3 +168,19 @@ class AddSellerTypeView(CreateView):
         form.instance.seller.save()
 
         return response
+
+
+class AddUserView(View):
+    template_name = 'add-user.html'
+
+    def get(self, request, *args, **kwargs):
+        form = UserCreationFormExtended()
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = UserCreationFormExtended(request.POST)
+        if form.is_valid():
+            user = form.save()
+            # You can perform additional actions here if needed
+            return redirect('dashboard')  # Redirect to your dashboard page
+        return render(request, self.template_name, {'form': form})

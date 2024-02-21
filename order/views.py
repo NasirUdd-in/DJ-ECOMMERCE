@@ -116,10 +116,10 @@ from .models import OrderItem, Product
 @login_required
 def seller_dashboard(request):
     date_range_form = DateRangeForm(request.GET)
-    
+
     if request.user.is_superuser:
         # If the user is an admin, show all sold products
-        
+
         seller_orders = OrderItem.objects.all()
     elif request.user.is_staff and request.user.is_active:
         # If the user is an seller, show all sold products
@@ -154,7 +154,7 @@ class OrderListView(ListView):
     model = Order
     template_name = 'admin-order-list.html'
     context_object_name = 'orders'
-    ordering = ['-created_date']
+    ordering = ['created_date']
 
 
 class OrderListView(ListView):

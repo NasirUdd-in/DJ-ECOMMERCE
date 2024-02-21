@@ -10,7 +10,9 @@ from .views import(
     sidebar,
     AddCategoryView,
     CategoryListView,
-    ProductDeleteView
+    ProductDeleteView,
+
+    AdminOverView
 )
 
 urlpatterns = [
@@ -27,4 +29,6 @@ urlpatterns = [
     path('category-list/', CategoryListView.as_view(), name='category-list'),
 
     path('product/<int:pk>/delete/', ProductDeleteView.as_view(), name='product_delete'),
+
+    path('admin-overview/', AdminOverView.as_view(), name='admin_over_view'),
 ]

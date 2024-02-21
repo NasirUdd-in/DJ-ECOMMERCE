@@ -1,59 +1,59 @@
-{% extends '../sidebar.html' %}
-{% load static %}
-{% block title %} Orders {% endblock title%}
 
-{% block content%}
+{% extends 'sidebar.html' %}
 
-    <!-- Product Page Section Beign -->
-    <section class="page-add">
-        <div class="container">
-            <div class="categories-controls">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="page-beadcumb">
-                          <h3>Orders</h1>  
-                            <hr>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Product Page Section End -->
 
-<section>
-    <div class="container">
-    <div class="col-md-12"> 
-        {% if orders %}
-    <table class="table">
-        <thead>
-          <tr>
-            <th class="bg-warning" scope="col">Transaction Id</th>
-            <th class="bg-warning" scope="col">Customer Email</th>
-            <th class="bg-warning" scope="col">Status</th>
-            <th class="bg-warning" scope="col">Details</th>
-          </tr>
-        </thead>
-        <tbody>
-            {% for order in orders %}
-          <tr>
-            <td  class="table-primary">{{order.transaction_id}}</td>
-            <th scope="row"  class="table-secondary">{{order.email}}</th>
-            <td class="table-warning">{{order.status}}</td>
-            <td class="table-dark">{{order.created_date}}</td>
-          </tr>
-          {% endfor %}  
-        </tbody>
-      </table>
+{% block content %}
+  <h2>Order LIST</h2>
+
+  {% if orders %}
+
+
+    <div class="card-body">
+        {% comment %} <div class="table-responsive"> {% endcomment %}
+            <table class="table display table-bordered table-striped table-hover sourced">
+                <thead>
+                    <tr>
+
+                        <tr>
+                            <th>Transaction Id</th>
+                            <th>Customer Email</th>
+                            <th>Status</th>
+                            <th>Details</th>
+
+
+                            <!-- Add more columns as needed -->
+                        </tr>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                    <tr>
+                        <td>{{order.transaction_id}}</td>
+                        <td>{{order.email}}</td>
+                        <td>{{order.status}}</td>
+                        <td>{{order.created_date}}</td>
+
+
+                    </tr>
+                {% endfor %}
+
+
+                </tbody>
+                <tfoot>
+                    <tr>
+                      <th>Transaction Id</th>
+                      <th>Customer Email</th>
+                      <th>Status</th>
+                      <th>Details</th>
+
+                        <!-- Add more columns as needed -->
+                    </tr>
+                </tfoot>
+            </table>
+        {% comment %} </div> {% endcomment %}
     </div>
-</div>
-{% else %}
-<div class="col-md-12">
-     <h3> No orders yet </h3>
-</div>
-{% endif %}
-</section>
+  {% else %}
+    <p>No order available </p>
+  {% endif %}
+{% endblock %}
 
-{% endblock content %}
-</div>

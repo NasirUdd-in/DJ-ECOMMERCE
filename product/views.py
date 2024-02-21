@@ -30,6 +30,9 @@ from .models import(
     Slider
 )
 
+from order.models import(
+    Order
+)
 from user_account.models import SellerType
 # Create your views here.
 class Home(TemplateView):
@@ -204,3 +207,18 @@ class ProductDeleteView(LoginRequiredMixin, View):
         messages.success(request, 'Product deleted successfully!')
         return redirect(self.success_url)
 
+
+#dashboard overview start
+
+class AdminOverView(View):
+    template_name = 'dashboard/admin-overview.html'
+
+    def get(self, request, *args, **kwargs):
+        user = request.user
+
+        total_products = Product.objects.filter(seller=user).count()
+        total_category = Category.objects.count()
+        total_order = Order.objects.count()
+        total_slider = Slider.objects.count()
+        context = {'total_products': total_products,'total_category': total_category,'total_order': total_order,'total_slider': total_slider}
+        return render(request, self.template_name, context)

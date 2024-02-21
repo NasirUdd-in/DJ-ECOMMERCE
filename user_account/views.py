@@ -50,9 +50,13 @@ class Login(LogoutRequiredMixin, generic.View):
                 username=form.cleaned_data.get('username'),
                 password=form.cleaned_data.get('password')
             )
+
             if user:
                 login(self.request, user)
-                return redirect('home')
+                if user.is_staff:
+                    return redirect('admin_over_view')
+                else:
+                    return redirect('home')
 
             else:
                 messages.warning(self.request, "Wrong credentials")

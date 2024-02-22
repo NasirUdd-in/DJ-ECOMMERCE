@@ -92,7 +92,7 @@
                         {% if request.user.is_superuser %}
                         <li>
                             <a class="has-arrow material-ripple" href="#">
-                                <i class="typcn typcn-chart-pie-outline"></i>Seller
+                                <i class="hvr-buzz-out fas fa-portrait"></i>Seller
                             </a>
                             <ul class="nav-second-level">
                                 <li><a href="{% url 'staff_users_list' %}">Seller List</a></li>
@@ -103,7 +103,7 @@
                         <li>
 
                             <a class="has-arrow material-ripple" href="#">
-                                <i class="typcn typcn-chart-pie-outline"></i>Customer
+                                <i class="hvr-buzz-out fas fa-users"></i>Customer
                             </a>
                             <ul class="nav-second-level">
                                 <li><a href="{% url 'customer_list' %}">Customer List</a></li>
@@ -133,7 +133,7 @@
                         {% if request.user.is_superuser %}
                         <li>
                             <a class="has-arrow material-ripple" href="#">
-                                <i class="typcn typcn-chart-pie-outline"></i> Products
+                                <i class="hvr-buzz-out fas fa-boxes"></i> Products
                             </a>
                             <ul class="nav-second-level">
                                 <li><a href="{% url 'product-by-seller' %}">Product List</a></li>
@@ -144,7 +144,7 @@
 
                         <li>
                             <a class="has-arrow material-ripple" href="#">
-                                <i class="typcn typcn-chart-pie-outline"></i> Category
+                                <i class="hvr-buzz-out fas fa-dolly"></i> Category
                             </a>
                             <ul class="nav-second-level">
                                 <li><a href="{% url 'category-list' %}">Category List</a></li>

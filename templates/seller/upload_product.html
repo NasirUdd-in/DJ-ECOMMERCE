@@ -6,7 +6,7 @@
     <h2 class="mb-4">Upload Product</h2>
     <h1 class="text-danger">{{ message }}</h1>
     {% if not message %}
-    <form method="post">
+    <form method="post"  enctype="multipart/form-data">
       {% csrf_token %}
       {{ form|crispy }}
       <button type="submit" class="btn btn-primary">Submit</button>

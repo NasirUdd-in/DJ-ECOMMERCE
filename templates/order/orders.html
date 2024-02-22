@@ -1,59 +1,102 @@
-{% extends '../sidebar.html' %}
-{% load static %}
-{% block title %} Orders {% endblock title%}
 
-{% block content%}
+{% extends 'sidebar.html' %}
 
-    <!-- Product Page Section Beign -->
-    <section class="page-add">
-        <div class="container">
-            <div class="categories-controls">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="page-beadcumb">
-                          <h3>Orders</h1>  
-                            <hr>
+
+{% block content %}
+  <h2>Order LIST</h2>
+<!-- Button trigger modal -->
+
+
+
+  {% if orders %}
+
+
+    <div class="card-body">
+        {% comment %} <div class="table-responsive"> {% endcomment %}
+            <table class="table display table-bordered table-striped table-hover sourced">
+                <thead>
+                    <tr>
+
+                        <tr>
+                            <th>Transaction Id</th>
+                            <th>Customer Email</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                            <th>Details</th>
+
+
+                            <!-- Add more columns as needed -->
+                        </tr>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                    <tr>
+                        <td>{{order.transaction_id}}</td>
+                        <td>{{order.email}}</td>
+                        <td>{{order.status}}</td>
+                        <td>{{order.created_date}}</td>
+                        <td>
+                            <i  type="button"  data-bs-toggle="modal" data-bs-target="#exampleModal_{{order.id}}" style="cursor: pointer;" class="fa fa-eye"></i>
+                        </td>
+
+                    </tr>
+
+
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal_{{order.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel_{{order.id}}">Total: {{order.total}}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+
+
+
+                                <div class="modal-body py-4">
+                                    {% for order_item in order.order_items.all %}
+                                        {% with product=order_item.product %}
+                                            <div class="row my-2">
+                                                <div class="col-md-4 px-4 ">
+                                                    <img style="width: 100%; height: 220px" src="{{ product.thumbnail }}" alt=""/>
+                                                </div>
+                                                <div class="col-md-8 px-4">
+                                                    <h4>{{ product.title }}</h4>
+                                                    <p><strong>Price:</strong> $ {{ order_item.price }}</p>
+                                                    <p><strong>Quantity:</strong> {{ order_item.quantity }}</p>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                        {% endwith %}
+                                    {% endfor %}
+                                </div>
+
+
+                        </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Product Page Section End -->
 
-<section>
-    <div class="container">
-    <div class="col-md-12"> 
-        {% if orders %}
-    <table class="table">
-        <thead>
-          <tr>
-            <th class="bg-warning" scope="col">Transaction Id</th>
-            <th class="bg-warning" scope="col">Customer Email</th>
-            <th class="bg-warning" scope="col">Status</th>
-            <th class="bg-warning" scope="col">Details</th>
-          </tr>
-        </thead>
-        <tbody>
-            {% for order in orders %}
-          <tr>
-            <td  class="table-primary">{{order.transaction_id}}</td>
-            <th scope="row"  class="table-secondary">{{order.email}}</th>
-            <td class="table-warning">{{order.status}}</td>
-            <td class="table-dark">{{order.created_date}}</td>
-          </tr>
-          {% endfor %}  
-        </tbody>
-      </table>
+                    {% endfor %}
+
+                </tbody>
+                <tfoot>
+                    <tr>
+                      <th>Transaction Id</th>
+                      <th>Customer Email</th>
+                      <th>Status</th>
+                      <th>Date</th>
+                      <th>Details</th>
+
+                        <!-- Add more columns as needed -->
+                    </tr>
+                </tfoot>
+            </table>
+        {% comment %} </div> {% endcomment %}
     </div>
-</div>
-{% else %}
-<div class="col-md-12">
-     <h3> No orders yet </h3>
-</div>
-{% endif %}
-</section>
+  {% else %}
+    <p>No order available </p>
+  {% endif %}
+{% endblock %}
 
-{% endblock content %}
-</div>

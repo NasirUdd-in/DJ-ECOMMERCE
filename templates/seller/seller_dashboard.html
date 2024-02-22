@@ -12,6 +12,7 @@
 
       {{ date_range_form|crispy }}
       <button type="submit" class="btn btn-primary">Filter</button>
+      <a href="{% url 'pdf' %}" target="_blank" class="btn btn-success btn-md">Print</a>
     </form>
 
     {% if seller_orders %}

@@ -10,7 +10,7 @@ from cart.carts import Cart
 from .models import OrderItem, Order, Product
 from product.models import Product
 
-from django.views.generic import ListView
+from django.views.generic import ListView,View
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from .models import OrderItem
@@ -113,6 +113,12 @@ from django.db.models import Sum
 from .forms import DateRangeForm
 from .models import OrderItem, Product
 
+from io import BytesIO
+from django.http import HttpResponse
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+import os
+
 @login_required
 def seller_dashboard(request):
     date_range_form = DateRangeForm(request.GET)
@@ -175,3 +181,45 @@ class OrderListView(ListView):
         if form.is_valid():
             form.save()
         return redirect('order_list')  # Update this with your actual URL name
+    
+def generate_to_pdf(template_src,context_dict={}):
+    template = get_template(template_src)
+    html = template.render(context_dict)
+    result = BytesIO()
+    pdf = pisa.pisaDocument(BytesIO(html.encode("utf-8")),result)
+    if not pdf.err:
+        return HttpResponse(result.getvalue(),content_type="application/pdf")
+    else:
+     return None
+ 
+ 
+ 
+class GenerateInvoice(View):
+    def get(self,request,*args,**kwargs):
+        
+        if request.user.is_superuser:
+        # If the user is an admin, show all sold products
+        
+            seller_orders = OrderItem.objects.all()
+        elif request.user.is_staff and request.user.is_active:
+        # If the user is an seller, show all sold products of the specific seller
+            orders = Order.objects.filter(user=request.user)
+            seller_orders = OrderItem.objects.none()  # Initialize as an empty queryset
+            for order in orders:
+                seller_orders |= order.order_items.all()
+        
+        price = 0
+        for i in seller_orders:
+            price = price+i.price
+        quantity = 0
+        for i in seller_orders:
+            quantity = quantity+i.quantity
+        data = {
+            "order" : seller_orders,
+            "price" : price,
+            "quantity" : quantity,
+        }
+        pdf = generate_to_pdf("seller/pdf.html",data)
+        if pdf:
+            return pdf
+        return HttpResponse("Unauthorized",status=401)

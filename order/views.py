@@ -215,6 +215,8 @@ class GenerateInvoice(View):
         for i in seller_orders:
             quantity = quantity+i.quantity
         data = {
+            "name" : request.user.username,
+            "email" : request.user.email, 
             "order" : seller_orders,
             "price" : price,
             "quantity" : quantity,

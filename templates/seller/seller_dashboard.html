@@ -2,11 +2,11 @@
 {% extends 'sidebar.html' %}
 {% load crispy_forms_tags %}
 {% block content %}
- 
+
 
 <section>
   <div class="container">
-  <div class="col-md-12"> 
+  <div class="col-md-12">
     <h2 class="mb-4">Seller Dashboard</h2>
     <form method="get" class="mb-4">
 
@@ -21,6 +21,8 @@
           <table class="table display table-bordered table-striped table-hover sourced">
               <thead>
                   <tr>
+                    <th>Id</th>
+                    <th>Image</th>
                       <th>Products Name</th>
                       <th>Quantity</th>
                       <th>Price</th>
@@ -30,22 +32,25 @@
               <tbody>
                 {% for order_item in seller_orders %}
                   <tr>
+                    <td>{{ order_item.id }}</td>
+                    <td><img style="width: 50%; height: 120px" src="{{order_item.product.thumbnail }}" alt=""/></td>
                       <td>{{ order_item.product.title }}</td>
                       <td>{{ order_item.quantity }}</td>
                       <td>{{ order_item.price }}</td>
-                      
-                    
+
+
                   </tr>
                   {% endfor %}
-                
+
               </tbody>
               <tfoot>
                   <tr>
+                    <th>Image</th>
                       <th>Product Name</th>
                       <th>Quantity</th>
                       <th>Price</th>
-                    
-                      
+
+
                   </tr>
               </tfoot>
           </table>

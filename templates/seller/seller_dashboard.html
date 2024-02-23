@@ -7,16 +7,22 @@
 <section>
   <div class="container">
   <div class="col-md-12">
-    <h2 class="mb-4">Seller Dashboard</h2>
+    {% comment %} <h3 class="mb-4">Seller Dashboard</h3> {% endcomment %}
     <form method="get" class="mb-4">
-
-      {{ date_range_form|crispy }}
+      <div class="form-row d-flex">
+        <div class=" mb-3">
+          {{ date_range_form.start_date|as_crispy_field }}
+        </div>
+        <div class="ms-5 mb-3">
+          {{ date_range_form.end_date|as_crispy_field }}
+        </div>
+      </div>
       <button type="submit" class="btn btn-primary">Filter</button>
       <a href="{% url 'pdf' %}" target="_blank" class="btn btn-success btn-md">Print</a>
     </form>
 
     {% if seller_orders %}
-    <div class="card-body">
+    <div class="">
       {% comment %} <div class="table-responsive"> {% endcomment %}
           <table class="table display table-bordered table-striped table-hover sourced">
               <thead>
@@ -26,6 +32,7 @@
                       <th>Products Name</th>
                       <th>Quantity</th>
                       <th>Price</th>
+                      <th>Admin Share Amount</th>
 
                   </tr>
               </thead>
@@ -37,6 +44,7 @@
                       <td>{{ order_item.product.title }}</td>
                       <td>{{ order_item.quantity }}</td>
                       <td>{{ order_item.price }}</td>
+                      <td>{{ order_item.admin_share_amount }}</td>
 
 
                   </tr>
@@ -45,11 +53,12 @@
               </tbody>
               <tfoot>
                   <tr>
+                    <th>Id</th>
                     <th>Image</th>
                       <th>Product Name</th>
                       <th>Quantity</th>
                       <th>Price</th>
-
+                      <th>Admin Share Amount</th>
 
                   </tr>
               </tfoot>

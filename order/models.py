@@ -2,15 +2,24 @@ from django.db import models
 from django.conf import settings
 # from cart.models import Coupon
 from product.models import Product
+from decimal import Decimal
 
 
 class OrderItem (models. Model):
         product = models.ForeignKey (Product, related_name='ordered', on_delete=models.CASCADE)
         price = models.DecimalField (max_digits=8, decimal_places=2)
         quantity= models.PositiveIntegerField()
+        admin_share_amount = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
 
         class Meta:
-              ordering = ['-id']
+              ordering = ['id']
+        def save(self, *args, **kwargs):
+            # Calculate 20% of the total for admin share
+            admin_share_percentage = Decimal('0.20')
+            self.admin_share_amount = self.price * admin_share_percentage
+
+            # Call the original save method
+            super().save(*args, **kwargs)
         def _str_(self) -> str:
               return f"{self.product.title} x {self.quantity}"
 
@@ -33,8 +42,10 @@ class Order (models.Model):
         status = models.CharField(max_length=15, choices=list (zip (STATUS, STATUS)), default = 'Recieved')
         created_date = models.DateTimeField(auto_now_add=True)
 
+
         class Meta:
               ordering = ['-created_date']
+
 
         def str (self) -> str:
               return self.first_name + ' ' + self.last_name

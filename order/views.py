@@ -156,11 +156,11 @@ def seller_dashboard(request):
 
 
 
-class OrderListView(ListView):
-    model = Order
-    template_name = 'admin-order-list.html'
-    context_object_name = 'orders'
-    ordering = ['created_date']
+# class OrderListView(ListView):
+#     model = Order
+#     template_name = 'admin-order-list.html'
+#     context_object_name = 'orders'
+#     ordering = ['created_date']
 
 
 class OrderListView(ListView):
@@ -181,7 +181,7 @@ class OrderListView(ListView):
         if form.is_valid():
             form.save()
         return redirect('order_list')  # Update this with your actual URL name
-    
+
 
 
 def generate_to_pdf(template_src,context_dict={}):
@@ -193,13 +193,13 @@ def generate_to_pdf(template_src,context_dict={}):
         return HttpResponse(result.getvalue(),content_type="application/pdf")
     else:
      return None
- 
- 
- 
+
+
+
 class GenerateInvoice(View):
-    
+
     def get(self,request,*args,**kwargs):
-        
+
         price = 0
         for i in seller_orders:
             price = price+i.price
@@ -208,7 +208,7 @@ class GenerateInvoice(View):
             quantity = quantity+i.quantity
         data = {
             "name" : request.user.username,
-            "email" : request.user.email, 
+            "email" : request.user.email,
             "order" : seller_orders,
             "price" : price,
             "quantity" : quantity,

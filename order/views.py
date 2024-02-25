@@ -122,7 +122,7 @@ import os
 @login_required
 def seller_dashboard(request):
     date_range_form = DateRangeForm(request.GET)
-
+    global seller_orders
     if request.user.is_superuser:
         # If the user is an admin, show all sold products
 
@@ -182,6 +182,8 @@ class OrderListView(ListView):
             form.save()
         return redirect('order_list')  # Update this with your actual URL name
     
+
+
 def generate_to_pdf(template_src,context_dict={}):
     template = get_template(template_src)
     html = template.render(context_dict)
@@ -195,18 +197,8 @@ def generate_to_pdf(template_src,context_dict={}):
  
  
 class GenerateInvoice(View):
+    
     def get(self,request,*args,**kwargs):
-        
-        if request.user.is_superuser:
-        # If the user is an admin, show all sold products
-        
-            seller_orders = OrderItem.objects.all()
-        elif request.user.is_staff and request.user.is_active:
-        # If the user is an seller, show all sold products of the specific seller
-            orders = Order.objects.filter(user=request.user)
-            seller_orders = OrderItem.objects.none()  # Initialize as an empty queryset
-            for order in orders:
-                seller_orders |= order.order_items.all()
         
         price = 0
         for i in seller_orders:
@@ -225,3 +217,4 @@ class GenerateInvoice(View):
         if pdf:
             return pdf
         return HttpResponse("Unauthorized",status=401)
+

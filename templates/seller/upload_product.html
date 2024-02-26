@@ -2,7 +2,12 @@
 {% extends 'sidebar.html' %}
 {% load crispy_forms_tags %}
 {% block content %}
+<div class="d-flex justify-content-end">
+  <button type="button" onclick="window.location.href='{% url 'product-by-seller' %}'" class="btn btn-labeled btn-success mb-2 me-1">
+      <span class="btn-label"><i class="fas fa-list"></i></span>Product List
+  </button>
 
+</div>
     <h2 class="mb-4">Upload Product</h2>
     <h1 class="text-danger">{{ message }}</h1>
     {% if not message %}

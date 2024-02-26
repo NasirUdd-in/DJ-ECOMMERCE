@@ -3,6 +3,12 @@
 {% load crispy_forms_tags %}
 {% block content %}
   <h2>Add Seller Type</h2>
+  <div class="d-flex justify-content-end">
+    <button type="button" onclick="window.location.href='{% url 'staff_users_list' %}'" class="btn btn-labeled btn-success mb-2 me-1">
+        <span class="btn-label"><i class="fas fa-chevron-right"></i></span>Seller List
+    </button>
+
+  </div>
   <form method="post">
     {% csrf_token %}
     {{ form|crispy }}

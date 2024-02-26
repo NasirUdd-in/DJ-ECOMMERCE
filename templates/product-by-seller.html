@@ -2,6 +2,12 @@
 {% extends 'sidebar.html' %}
 
 {% block content %}
+<div class="d-flex justify-content-end">
+    <button type="button" onclick="window.location.href='{% url 'upload-product' %}'" class="btn btn-labeled btn-success mb-2 me-1">
+        <span class="btn-label"><i class="fa fa-bolt fa-spin"></i></span>Upload Product
+    </button>
+
+  </div>
   <h2>Products by {{ request.user.username }}</h2>
 
   {% if products %}

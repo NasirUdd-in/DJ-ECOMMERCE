@@ -2,6 +2,12 @@
 
 {% block content %}
   <h2>SELLER LIST</h2>
+  <div class="d-flex justify-content-end">
+    <button type="button" onclick="window.location.href='{% url 'add_seller' %}'" class="btn btn-labeled btn-success mb-2 me-1">
+        <span class="btn-label"><i class="fas fa-chevron-right"></i></span>Add Seller Type
+    </button>
+
+  </div>
 
   {% if seller_types %}
 

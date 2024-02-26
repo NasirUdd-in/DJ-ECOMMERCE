@@ -49,4 +49,3 @@ class Slider(models.Model):
         return self.title
 
 
-

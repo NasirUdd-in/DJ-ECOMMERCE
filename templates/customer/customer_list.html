@@ -2,7 +2,12 @@
 
 {% block content %}
   <h2>Customer LIST</h2>
+  <div class="d-flex justify-content-end">
+    <button type="button" onclick="window.location.href='{% url 'add_user' %}'" class="btn btn-labeled btn-success mb-2 me-1">
+        <span class="btn-label"><i class="fas fa-chevron-right"></i></span>Add Customer
+    </button>
 
+  </div>
   {% if customer_list %}
 
 

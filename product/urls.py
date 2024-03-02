@@ -12,7 +12,8 @@ from .views import(
     CategoryListView,
     ProductDeleteView,
 
-    AdminOverView
+    AdminOverView,
+    flash_sale_view
 )
 
 urlpatterns = [
@@ -31,4 +32,5 @@ urlpatterns = [
     path('product/<int:pk>/delete/', ProductDeleteView.as_view(), name='product_delete'),
 
     path('admin-overview/', AdminOverView.as_view(), name='admin_over_view'),
+    path('flashsale/', flash_sale_view, name='flashsale'),
 ]

@@ -28,7 +28,7 @@ class CartItems(generic.TemplateView):
         quantity = request.GET.get('quantity', None)
         clear =request.GET.get('clear', False)
         cart = Cart(request)
-        
+
 
         if product_id and quantity:
             product = get_object_or_404(Product, id=product_id)
@@ -71,11 +71,11 @@ class AddCoupon(generic.View):
                 return redirect('cart')
             if cart.total() < coupon.required_ammount_to_use_coupon:  # Corrected the spelling of 'required'
                 messages.warning(self.request, f"You have to shop at least {coupon.required_amount_to_use_coupon}")
-                return redirect('cart')   
+                return redirect('cart')
 
             cart.add_coupon(coupon.id)  # Use the id attribute of the coupon object
             messages.success(self.request, "Your coupon has been included successfully!")
             return redirect('cart')
         else:
             messages.warning(self.request, "Invalid coupon code")
-            return redirect('cart')  
+            return redirect('cart')

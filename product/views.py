@@ -22,18 +22,19 @@ from django.core.paginator import (
     EmptyPage,
     InvalidPage,
     Paginator
-
 )
 from .models import(
     Category,
     Product,
-    Slider
+    Slider,
+    FlashSales
 )
 
 from order.models import(
     Order
 )
 from user_account.models import SellerType
+from decimal import Decimal, InvalidOperation
 # Create your views here.
 class Home(TemplateView):
     template_name = "home.html"
@@ -222,3 +223,101 @@ class AdminOverView(View):
         total_slider = Slider.objects.count()
         context = {'total_products': total_products,'total_category': total_category,'total_order': total_order,'total_slider': total_slider}
         return render(request, self.template_name, context)
+
+from decimal import Decimal, InvalidOperation
+from django.shortcuts import render
+from django.http import HttpResponse
+from django.core.serializers.json import DjangoJSONEncoder
+import json
+from .models import Category, Product
+
+from django.utils import timezone
+from decimal import Decimal, InvalidOperation
+
+
+def FlashSale():
+    flash_sale_data = []
+    current_time = timezone.now()
+    # Get specific categories for the flash sale (replace [1, 2, 3] with the actual category IDs)
+    # category_ids = [ 3]
+    test = FlashSales.objects.all()
+    # for test1 in test:
+    #     categories = Category.objects.filter(id__in=test1.category.id)
+
+    for category in test:
+        print(category)
+        products_in_category = Product.objects.filter(category=category.category.id)
+        current_time = timezone.now()
+        for product in products_in_category:
+            try:
+                # Start flash sale for 30 minutes with a 5x multiplier
+                item_price = Decimal(str(product.price))  # Convert to Decimal
+                discount_percentage = Decimal(str(category.discount))  # Convert to Decimal
+                discounted_price = item_price * (1 - discount_percentage / 100)
+                # Apply the discount to the item price
+                # price = item.price /  flash_sale.discount
+                price = discounted_price
+
+                flash_sale_data.append({
+                    'category': category.category.title,
+                    'product_id': product.id,
+                    'product_name': product.title,
+                    'discount': category.discount,
+                    'regular_price': item_price,
+                    'updated_price': price,
+                    'active_date':category.active_date,
+                    'expiry_date': category.expiry_date,
+
+                })
+
+            except InvalidOperation as e:
+                # Handle Decimal arithmetic errors
+                print(f"Error updating price for product {product.id}: {e}")
+
+    return flash_sale_data
+
+# def FlashSale():
+#     flash_sale_data = []
+#     categories = Category.objects.all()
+
+#     for category in categories:
+#         print(category)
+#         products_in_category = Product.objects.filter(category=category)
+
+#         for product in products_in_category:
+#             # print(product.price ,"-", product.price*55)
+#              updated_price = product.price * Decimal('5')
+#              product.price = updated_price
+#              product.save()
+#              flash_sale_data.append({
+#                 'category': category.title,
+#                 'product_id': product.id,
+#                 'product_name': product.title,
+#                 'original_price': product.price,
+#                 'updated_price': updated_price,
+#             })
+
+#     return flash_sale_data
+
+from django.shortcuts import render
+ # Import your FlashSale function
+
+# def flash_sale_view(request):
+#     flash_sale_data = FlashSale()
+#     return render(request, 'flash_sale_template.html', {'flash_sale_data': flash_sale_data})
+
+from django.shortcuts import render
+from .models import FlashSales
+from datetime import date
+
+def flash_sale_view(request):
+    flash_sale_data = FlashSale()
+    current_date = date.today()
+    flash_sale_data_check = FlashSales.objects.filter(active=True, active_date__lte=current_date, expiry_date__gte=current_date).first()
+
+    show_flash_sale_details = False
+    if flash_sale_data_check:
+        # If there is an active flash sale, set show_flash_sale_details to True
+        show_flash_sale_details = True
+
+    return render(request, 'flash_sale_template.html', {'flash_sale_data': flash_sale_data, 'show_flash_sale_details': show_flash_sale_details})

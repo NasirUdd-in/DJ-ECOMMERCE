@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flash Sale</title>
+</head>
+<body>
+    {% if show_flash_sale_details %}
+    <h1>Flash Sale</h1>
+    <div id="flash-sale-timer"></div>
+
+    {% for item in flash_sale_data %}
+        <div>
+            <p>Category: {{ item.category }}</p>
+            <p>Product Name: {{ item.product_name }}</p>
+            <p>Discount: {{ item.discount }}</p>
+            <p>Original Price: {{item.regular_price }}</p>
+            <p>Updated Price: {{ item.updated_price }} </p>
+            <form action="{% url 'add-to-cart' item.product_id %}" method="POST">
+                {% csrf_token %}
+
+                <button style="cursor: pointer;" type="submit" class="btn btn-outline-success">
+                    Add to cart
+                </button>
+            </form>
+            <hr>
+        </div>
+    {% endfor %}
+    {% else %}
+    <p>No active flash sale at the moment.</p>
+{% endif %}
+</body>
+<!-- Your HTML template content -->
+<style>
+    #flash-sale-timer {
+        font-family: 'Arial', sans-serif;
+        font-size: 16px;
+        color: #333;
+        text-align: center;
+        margin: 20px 0;
+    }
+
+    .timer-box {
+        display: inline-block;
+        padding: 10px;
+        border: 2px solid #007BFF;
+        border-radius: 5px;
+        margin-top: 10px;
+        background-color: #f8f9fa;
+        box-shadow: 0 0 10px rgba(0, 123, 255, 0.3);
+        font-weight: bold;
+        letter-spacing: 1px;
+    }
+
+    .timer-box span {
+        display: inline-block;
+        padding: 5px;
+        margin: 0 2px;
+        background-color: #007BFF;
+        color: #fff;
+        border-radius: 3px;
+    }
+
+    @keyframes pulse {
+        0% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.05);
+        }
+
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    .timer-box span {
+        animation: pulse 1s infinite;
+    }
+</style>
+
+{% block extra_scripts %}
+
+<!-- Include jQuery (you can replace it with a different library if needed) -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    // Function to update the timer
+    function updateFlashSaleTimer(startDate, endDate) {
+        var now = new Date();
+        var startTime = new Date(startDate);
+        var endTime = new Date(endDate);
+
+        // Check if the sale has not started yet
+        if (now < startTime) {
+            var timeDiff = startTime - now;
+            var days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+
+            // Update the timer element
+            $('#flash-sale-timer').html(
+                'Sale Starts In: ' + days + 'd ' + hours + 'h ' + minutes + 'm ' + seconds + 's'
+            );
+        } else {
+            // Calculate the time difference in milliseconds
+            var timeDiff = endTime - now;
+
+            // Check if the sale has ended
+            if (timeDiff <= 0) {
+                $('#flash-sale-timer').html('Sale has ended');
+                return;
+            }
+
+            // Calculate the remaining time
+            var days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+
+            // Update the timer element
+            $('#flash-sale-timer').html(
+                'Time Left: ' + days + 'd ' + hours + 'h ' + minutes + 'm ' + seconds + 's'
+            );
+        }
+
+        // Update the timer every second
+        setTimeout(function () {
+            updateFlashSaleTimer(startDate, endDate);
+        }, 1000);
+    }
+
+    // Call the function with the start and end dates of the flash sale
+    var startDate = '{{ flash_sale_data.0.active_date }}'; // Replace with the actual variable
+    var endDate = '{{ flash_sale_data.0.expiry_date }}'; // Replace with the actual variable
+    updateFlashSaleTimer(startDate, endDate);
+</script>
+
+
+{% endblock %}
+<!-- Your HTML template content -->
+
+
+</html>

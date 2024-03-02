@@ -6,7 +6,7 @@
  <!-- Page Add Section Begin -->
  <section class="page-add cart-page-add">
     <div class="container">
-       
+
         <div class="row">
             <div class="col-lg-4">
                 <div class="page-breadcrumb">
@@ -55,6 +55,7 @@
                             <img style="height: 120px;" src="{{product.thumbnail}}" alt="">
                             <div class="p-title">
                                 <h5>{{product.title}}</h5>
+                                {% comment %} <h5>{{product.modified_price}}</h5> {% endcomment %}
                             </div>
                         </td>
                         <td class="price-col">{{product.price|floatformat:"2"}}</td>
@@ -63,12 +64,12 @@
                                 <a href="?product_id={{product.id}}&&quantity=-1">
                                     <span class="dec qtybtn">-</span>
                                 </a>
-                                
+
                                 <input disabled  value="{{item.quantity}}">
                                 <a href="?product_id={{product.id}}&&quantity=1">
                                     <span class="inc qtybtn">+</span>
                                 </a>
-                                
+
                             </div>
                         </td>
                         <td class="total">{{item.subtotal|floatformat:"2"}}</td>
@@ -83,8 +84,9 @@
                 </tbody>
             </table>
             <hr>
-            <h4 class="text-center">                              
+            <h4 class="text-center">
                     <strong>Total $ </strong> {{cart.total}}
+                    <strong>Total $ </strong> {{cart.test}}
             </h4>
 
         </div>
@@ -98,9 +100,9 @@
                             <input name="coupon" type="text" placeholder="Enter cupone code">
                         </div>
                     </form>
-                    
-                </div> 
-                
+
+                </div>
+
                 <div class="col-lg-5 offset-lg-1 text-left text-lg-right">
                     <div class="site-btn clear-btn">
                         <a class="text-decoration-none text-dark" href="?clear=true">

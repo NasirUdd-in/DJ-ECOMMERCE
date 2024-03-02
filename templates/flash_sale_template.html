@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flash Sale</title>
+</head>
+<body>
+    <h1>Flash Sale</h1>
+
+    {% for item in flash_sale_data %}
+        <div>
+            <p>Category: {{ item.category }}</p>
+            <p>Product Name: {{ item.product_name }}</p>
+            <p>Original Price: {{ item.discount }}</p>
+            <p>Updated Price: {{ item.updated_price }}</p>
+            <form action="{% url 'add-to-cart' item.product_id %}" method="POST">
+                {% csrf_token %}
+
+                <button style="cursor: pointer;" type="submit" class="btn btn-outline-success">
+                    Add to cart
+                </button>
+            </form>
+            <hr>
+        </div>
+    {% endfor %}
+</body>
+
+</html>

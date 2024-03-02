@@ -231,10 +231,13 @@ from django.core.serializers.json import DjangoJSONEncoder
 import json
 from .models import Category, Product
 
+from django.utils import timezone
+from decimal import Decimal, InvalidOperation
+
 
 def FlashSale():
     flash_sale_data = []
-
+    current_time = timezone.now()
     # Get specific categories for the flash sale (replace [1, 2, 3] with the actual category IDs)
     # category_ids = [ 3]
     test = FlashSales.objects.all()
@@ -244,18 +247,26 @@ def FlashSale():
     for category in test:
         print(category)
         products_in_category = Product.objects.filter(category=category.category.id)
-
+        current_time = timezone.now()
         for product in products_in_category:
             try:
                 # Start flash sale for 30 minutes with a 5x multiplier
-                updated_price = product.price / category.discount
+                item_price = Decimal(str(product.price))  # Convert to Decimal
+                discount_percentage = Decimal(str(category.discount))  # Convert to Decimal
+                discounted_price = item_price * (1 - discount_percentage / 100)
+                # Apply the discount to the item price
+                # price = item.price /  flash_sale.discount
+                price = discounted_price
 
                 flash_sale_data.append({
                     'category': category.category.title,
                     'product_id': product.id,
                     'product_name': product.title,
                     'discount': category.discount,
-                    'updated_price': updated_price,
+                    'regular_price': item_price,
+                    'updated_price': price,
+                    'active_date':category.active_date,
+                    'expiry_date': category.expiry_date,
 
                 })
 

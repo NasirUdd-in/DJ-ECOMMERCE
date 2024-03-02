@@ -1,7 +1,7 @@
 from django.conf import settings
 from product.models import Product
 from .models import Coupon
-from product.models import FlashSales
+from product.models import FlashSales  
 from decimal import Decimal
 class Cart(object):
     def __init__(self, request) -> None:

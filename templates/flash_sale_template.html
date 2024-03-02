@@ -7,6 +7,7 @@
     <title>Flash Sale</title>
 </head>
 <body>
+    {% if show_flash_sale_details %}
     <h1>Flash Sale</h1>
     <div id="flash-sale-timer"></div>
 
@@ -27,7 +28,9 @@
             <hr>
         </div>
     {% endfor %}
-
+    {% else %}
+    <p>No active flash sale at the moment.</p>
+{% endif %}
 </body>
 <!-- Your HTML template content -->
 <style>

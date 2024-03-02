@@ -302,6 +302,22 @@ def FlashSale():
 from django.shortcuts import render
  # Import your FlashSale function
 
+# def flash_sale_view(request):
+#     flash_sale_data = FlashSale()
+#     return render(request, 'flash_sale_template.html', {'flash_sale_data': flash_sale_data})
+
+from django.shortcuts import render
+from .models import FlashSales
+from datetime import date
+
 def flash_sale_view(request):
     flash_sale_data = FlashSale()
-    return render(request, 'flash_sale_template.html', {'flash_sale_data': flash_sale_data})
+    current_date = date.today()
+    flash_sale_data_check = FlashSales.objects.filter(active=True, active_date__lte=current_date, expiry_date__gte=current_date).first()
+
+    show_flash_sale_details = False
+    if flash_sale_data_check:
+        # If there is an active flash sale, set show_flash_sale_details to True
+        show_flash_sale_details = True
+
+    return render(request, 'flash_sale_template.html', {'flash_sale_data': flash_sale_data, 'show_flash_sale_details': show_flash_sale_details})

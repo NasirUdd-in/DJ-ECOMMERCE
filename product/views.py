@@ -260,6 +260,7 @@ def FlashSale():
 
                 flash_sale_data.append({
                     'category': category.category.title,
+                    'product_thumbnail': product.thumbnail,
                     'product_id': product.id,
                     'product_name': product.title,
                     'discount': category.discount,
@@ -321,3 +322,7 @@ def flash_sale_view(request):
         show_flash_sale_details = True
 
     return render(request, 'flash_sale_template.html', {'flash_sale_data': flash_sale_data, 'show_flash_sale_details': show_flash_sale_details})
+
+
+def product_slider(request):
+    return render(request, 'product/product-slider.html')

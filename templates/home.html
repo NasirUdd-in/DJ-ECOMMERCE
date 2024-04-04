@@ -100,7 +100,7 @@
                     <div class="section-title">
                         <h2>Featured Products</h2>
                     </div>
-                       
+
                 </div>
             </div>
         </div>
@@ -121,7 +121,7 @@
                     <div class="product-text">
                         <form action="{% url 'add-to-cart' product.id %}" method="POST">
                             {% csrf_token %}
-    
+
                             <button style="cursor: pointer;" type="submit" class="btn btn-outline-success">
                                 Add to cart
                             </button>

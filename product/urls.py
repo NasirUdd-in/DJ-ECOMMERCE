@@ -13,7 +13,8 @@ from .views import(
     ProductDeleteView,
 
     AdminOverView,
-    flash_sale_view
+    flash_sale_view,
+    product_slider
 )
 
 urlpatterns = [
@@ -33,4 +34,5 @@ urlpatterns = [
 
     path('admin-overview/', AdminOverView.as_view(), name='admin_over_view'),
     path('flashsale/', flash_sale_view, name='flashsale'),
+    path('product-slider/', product_slider, name='product_slider'),
 ]

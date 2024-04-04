@@ -1,0 +1,99 @@
+{% extends '../base.html' %}
+{% load static %}
+
+{% block title %}Flash Sale{% endblock title %}
+
+{% block links %}
+<style>
+  .swiper {
+    width: 100%;
+    height: 100%;
+  }
+
+  .swiper-slide {
+    text-align: center;
+    font-size: 18px;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  @media (max-width: 760px) {
+    .swiper-button-next {
+      right: 20px;
+      transform: rotate(90deg);
+    }
+
+    .swiper-button-prev {
+      left: 20px;
+      transform: rotate(90deg);
+    }
+  }
+</style>
+{% endblock links %}
+
+{% block content %}
+  {% if show_flash_sale_details %}
+    <h1>Flash Sale</h1>
+    <div id="flash-sale-timer"></div>
+
+    <!-- Swiper -->
+    <div class="swiper">
+      <div class="swiper-wrapper">
+        {% for item in flash_sale_data %}
+          <div class="swiper-slide">
+            <div class="card" style="width: 18rem;">
+              <img class="card-img-top" src="{{item.thumbnail}}" alt="Card image cap">
+              <div class="card-body">
+                <h5 class="card-title">{{ item.category }}</h5>
+                <p class="card-text">{{ item.product_name }}</p>
+                <p>Discount: {{ item.discount }}</p>
+                <p>Original Price: {{ item.regular_price }}</p>
+                <p>Updated Price: {{ item.updated_price }}</p>
+                <form action="{% url 'add-to-cart' item.product_id %}" method="POST">
+                  {% csrf_token %}
+                  <button style="cursor: pointer;" type="submit" class="btn btn-outline-success">
+                    Add to cart
+                  </button>
+                </form>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
+    </div>
+  {% endif %}
+{% endblock content %}
+
+{% block extra_scripts %}
+  <!-- Swiper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+  <!-- Initialize Swiper -->
+  <script>
+    var swiper = new Swiper('.swiper', {
+      slidesPerView: 3,
+      direction: getDirection(),
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      on: {
+        resize: function () {
+          swiper.changeDirection(getDirection());
+        },
+      },
+    });
+
+    function getDirection() {
+      var windowWidth = window.innerWidth;
+      var direction = window.innerWidth <= 760 ? 'vertical' : 'horizontal';
+
+      return direction;
+    }
+  </script>
+{% endblock extra_scripts %}
